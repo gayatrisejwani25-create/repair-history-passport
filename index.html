@@ -1,19 +1,33 @@
+
 <div id="login" class="login">
   <div class="card">
-    <h1>Welcome to RHP</h1>
-    <p class="muted">Login or create your account.</p>
+    <h1>Welcome to Fixora Hub</h1>
+    <p class="muted">Your Repair History Passport starts here.</p>
 
+    <!-- LOGIN -->
     <form id="loginForm">
-      <h3>Login</h3>
+      <h3>Login to Your Account</h3>
 
       <div class="field">
-        <label>Email</label>
-        <input id="email" type="email" required>
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
       </div>
 
       <div class="field">
-        <label>Password</label>
-        <input id="password" type="password" required>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
       </div>
 
       <div class="actions">
@@ -23,26 +37,46 @@
 
     <hr>
 
+    <!-- REGISTER -->
     <form id="registerForm">
-      <h3>Create Account</h3>
+      <h3>Create a New Account</h3>
 
       <div class="field">
-        <label>Full Name</label>
-        <input id="regName" type="text" required>
+        <label for="regName">Full Name</label>
+        <input
+          id="regName"
+          type="text"
+          placeholder="Enter your full name"
+          autocomplete="name"
+          required
+        >
       </div>
 
       <div class="field">
-        <label>Email</label>
-        <input id="regEmail" type="email" required>
+        <label for="regEmail">Email Address</label>
+        <input
+          id="regEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
       </div>
 
       <div class="field">
-        <label>Password (minimum 8 characters)</label>
-        <input id="regPassword" type="password" minlength="8" required>
+        <label for="regPassword">Password</label>
+        <input
+          id="regPassword"
+          type="password"
+          placeholder="Minimum 8 characters"
+          minlength="8"
+          autocomplete="new-password"
+          required
+        >
       </div>
 
       <div class="field">
-        <label>Account Type</label>
+        <label for="regRole">Account Type</label>
         <select id="regRole" required>
           <option value="customer">Customer</option>
           <option value="repair_shop_owner">Repair Shop Owner</option>
@@ -50,10 +84,12 @@
       </div>
 
       <div class="actions">
-        <button type="submit" style="width:100%">Create Account</button>
+        <button type="submit" style="width:100%">
+          Create Account
+        </button>
       </div>
     </form>
 
-    <p id="authMessage"></p>
+    <p id="authMessage" role="status" aria-live="polite"></p>
   </div>
 </div>
