@@ -1,470 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Repair History Passport</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font:15px Arial;background:#f2f5fa;color:#1c2d42}
-header{background:#10243e;color:white;padding:17px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-header b{font-size:22px}header span{color:#63d8d0}
-button{border:0;border-radius:7px;padding:9px 13px;background:#1769aa;color:white;cursor:pointer;font-weight:bold}
-button.secondary{background:#e5edf6;color:#173653}button.danger{background:#bd3547}button.success{background:#168653}
-input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:7px;background:white;font:inherit}
-label{font-size:13px;font-weight:bold}textarea{min-height:75px}
-.layout{display:grid;grid-template-columns:220px 1fr;min-height:85vh}
-aside{background:white;padding:15px;border-right:1px solid #dce3ec}
-nav button{display:block;width:100%;text-align:left;margin:4px 0;background:transparent;color:#29425e}
-nav button.active,nav button:hover{background:#e7f1fa;color:#1769aa}
-main{padding:22px;max-width:1400px;width:100%;margin:auto}
-h1{font-size:25px;color:#10243e;margin:0 0 5px}h2{font-size:18px;color:#10243e}
-.card{background:white;border:1px solid #dce3ec;border-radius:12px;padding:17px;margin:14px 0;box-shadow:0 4px 16px #10243e0b}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.field{display:flex;flex-direction:column;gap:5px}.full{grid-column:1/-1}
-.stat{font-size:27px;font-weight:bold;color:#10243e}.muted,.small{color:#718096;font-size:13px}
-.actions,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid #e5eaf0;font-size:13px;vertical-align:top}
-th{background:#f6f8fb;color:#52657a}.tablewrap{overflow:auto}
-.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7edf4;font-size:11px;font-weight:bold}
-.good{background:#e1f5e9;color:#147342}.warn{background:#fff0d6;color:#95600c}.bad{background:#fde6e9;color:#a52c3b}
-.notice{padding:12px;background:#eaf3fb;border-left:4px solid #1769aa;margin:10px 0;border-radius:6px;font-size:13px}
-.login{max-width:440px;margin:50px auto;padding:15px}.hidden{display:none!important}
-.modalbg{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;padding:15px}
-.modal{background:white;padding:20px;border-radius:12px;width:100%;max-width:600px;max-height:90vh;overflow:auto}
-.qr{width:160px;height:160px;object-fit:contain}
-@media(max-width:800px){.layout{grid-template-columns:1fr}aside{border:0;border-bottom:1px solid #ddd;padding:6px}nav{display:flex;overflow:auto}nav button{white-space:nowrap;width:auto}.grid{grid-template-columns:repeat(2,1fr)}main{padding:12px}}
-@media(max-width:500px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.grid{grid-template-columns:repeat(2,1fr)}}
-</style>
-</head>
-<body>
-<header>
- <div><b>Repair History <span>Passport</span></b><br><small>Scan • Track • Verify</small></div>
- <div><span id="who"></span> <button id="logout" class="hidden" onclick="logout()">Logout</button></div>
-</header>
-
 <div id="login" class="login">
- <div class="card">
-  <h1>Welcome to RHP</h1>
-  <p class="muted">Login to continue.</p>
-  <form id="loginForm">
-   <div class="field"><label>Email</label><input id="email" type="email" required></div>
-   <div class="field"><label>Password</label><input id="password" type="password" required></div>
-   <div class="actions"><button style="width:100%">Login</button></div>
-  </form>
-  <div class="notice"><b>Demo accounts — password: 123456</b><br>
-   Owner: owner@rhp.demo<br>Technician: tech@rhp.demo<br>Admin: admin@rhp.demo
+  <div class="card">
+    <h1>Welcome to RHP</h1>
+    <p class="muted">Login or create your account.</p>
+
+    <form id="loginForm">
+      <h3>Login</h3>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="email" type="email" required>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="password" type="password" required>
+      </div>
+
+      <div class="actions">
+        <button type="submit" style="width:100%">Login</button>
+      </div>
+    </form>
+
+    <hr>
+
+    <form id="registerForm">
+      <h3>Create Account</h3>
+
+      <div class="field">
+        <label>Full Name</label>
+        <input id="regName" type="text" required>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="regEmail" type="email" required>
+      </div>
+
+      <div class="field">
+        <label>Password (minimum 8 characters)</label>
+        <input id="regPassword" type="password" minlength="8" required>
+      </div>
+
+      <div class="field">
+        <label>Account Type</label>
+        <select id="regRole" required>
+          <option value="customer">Customer</option>
+          <option value="repair_shop_owner">Repair Shop Owner</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button type="submit" style="width:100%">Create Account</button>
+      </div>
+    </form>
+
+    <p id="authMessage"></p>
   </div>
- </div>
 </div>
-
-<div id="app" class="layout hidden">
- <aside><nav id="nav"></nav></aside>
- <main id="main"></main>
-</div>
-<div id="modal"></div>
-
-<script>
-const KEY="rhp_final_v2";
-const $=id=>document.getElementById(id);
-const uid=p=>p+"-"+Date.now().toString(36).toUpperCase()+"-"+Math.random().toString(36).slice(2,5).toUpperCase();
-const today=()=>new Date().toISOString().slice(0,10);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmt=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-IN"):"—";
-let db;
-try{db=JSON.parse(localStorage.getItem(KEY))}catch{}
-if(!db)db={
- users:[
-  {id:"owner",name:"Demo Owner",email:"owner@rhp.demo",password:"123456",role:"Owner",verified:true},
-  {id:"tech",name:"Demo Technician",email:"tech@rhp.demo",password:"123456",role:"Technician",verified:true,specialization:"General Repair",centre:"Demo Service Centre"},
-  {id:"admin",name:"System Admin",email:"admin@rhp.demo",password:"123456",role:"Admin",verified:true}
- ],
- products:[],repairs:[],transfers:[],reminders:[],notifications:[]
-};
-let me=null,page="Dashboard",editId=null;
-function save(){localStorage.setItem(KEY,JSON.stringify(db))}
-save();
-function user(id){return db.users.find(x=>x.id===id)}
-function product(id){return db.products.find(x=>x.id===id)}
-function ownerName(p){return user(p.ownerId)?.name||p.ownerName||"Unknown"}
-function warranty(p){
- if(!p.purchase||p.months==="")return {status:"Unknown",end:""};
- let d=new Date(p.purchase+"T00:00:00");d.setMonth(d.getMonth()+Number(p.months));
- let end=d.toISOString().slice(0,10);
- return {status:end>=today()?"Active":"Expired",end};
-}
-function pill(s){
- let c=["Verified","Active","Accepted","Completed"].includes(s)?"good":
- ["Disputed","Rejected","Expired"].includes(s)?"bad":
- ["Pending Verification","Pending","Upcoming"].includes(s)?"warn":"";
- return `<span class="pill ${c}">${esc(s||"Unknown")}</span>`;
-}
-function notice(userId,message,type="info"){
- db.notifications.unshift({id:uid("N"),userId,message,type,date:new Date().toISOString()});save();
-}
-function can(p){
- if(me.role==="Admin")return true;
- if(["Dashboard","Verify Passport","Notifications","Profile"].includes(p))return true;
- if(me.role==="Owner")return ["Register Product","My Products","Repair History","Transfers","Reminders"].includes(p);
- if(me.role==="Technician")return ["Technician Portal","Repair History"].includes(p);
- return false;
-}
-const pages=["Dashboard","Register Product","My Products","Technician Portal","Repair History","Transfers","Reminders","Verify Passport","Notifications","Profile","Admin Console"];
-function render(){
- $("login").classList.add("hidden");$("app").classList.remove("hidden");$("logout").classList.remove("hidden");
- $("who").textContent=me.name+" • "+me.role;
- $("nav").innerHTML=pages.filter(can).map(p=>`<button class="${page===p?"active":""}" onclick="go('${p}')">${p}</button>`).join("");
- const fn={
- "Dashboard":dashboard,"Register Product":register,"My Products":products,
- "Technician Portal":technician,"Repair History":repairs,"Transfers":transfers,
- "Reminders":reminders,"Verify Passport":verify,"Notifications":notifications,
- "Profile":profile,"Admin Console":admin
- };
- $("main").innerHTML=(fn[page]||dashboard)();
-}
-function go(p){if(can(p)){page=p;render()}}
-function logout(){me=null;$("app").classList.add("hidden");$("login").classList.remove("hidden");$("logout").classList.add("hidden");$("who").textContent=""}
-$("loginForm").onsubmit=e=>{
- e.preventDefault();
- let u=db.users.find(x=>x.email.toLowerCase()===$("email").value.trim().toLowerCase()&&x.password===$("password").value);
- if(!u)return alert("Invalid email or password.");
- if(u.role==="Technician"&&!u.verified)return alert("Your technician account is waiting for Admin verification.");
- me=u;page="Dashboard";checkReminders();render();
-};
-function head(t,s){return `<h1>${t}</h1><div class="muted">${s}</div>`}
-function cardStats(a){return `<div class="grid">${a.map(x=>`<div class="card"><div class="muted">${x[0]}</div><div class="stat">${x[1]}</div></div>`).join("")}</div>`}
-function myProducts(){return db.products.filter(p=>me.role!=="Owner"||p.ownerId===me.id)}
-function dashboard(){
- let ps=myProducts(),rs=me.role==="Technician"?db.repairs.filter(r=>r.techId===me.id):db.repairs;
- let pending=db.repairs.filter(r=>r.status==="Pending Verification").length;
- return head("Dashboard","Repair History Passport overview")+
- cardStats([["Products",ps.length],["Active Warranties",ps.filter(p=>warranty(p).status==="Active").length],["Pending Verification",pending],["Repair Records",rs.length]])+
- `<div class="card"><h2>Quick Actions</h2><div class="actions">
- ${me.role==="Owner"?'<button onclick="go(\\'Register Product\\')">Register Product</button><button class="secondary" onclick="go(\\'My Products\\')">My Products</button>':""}
- ${me.role==="Technician"?'<button onclick="go(\\'Technician Portal\\')">Log a Repair</button>':""}
- <button class="secondary" onclick="go('Verify Passport')">Verify Passport</button>
- <button class="secondary" onclick="go('Notifications')">Notifications</button></div></div>
- <div class="card"><h2>Recent Repairs</h2>${repairTable(db.repairs.slice(-5).reverse())}</div>`;
-}
-function register(){
- if(me.role!=="Owner")return "<div class='notice'>Owner access only.</div>";
- let p=editId?product(editId):null;
- return head(p?"Edit Product":"Register Physical Object","Create a unique product passport.")+
- `<div class="card"><form id="productForm"><div class="formgrid">
- ${field("Product name","name",p?.name,true)}
- ${field("Brand","brand",p?.brand,true)}
- ${field("Category","category",p?.category||"Appliance",true,"select")}
- ${field("Model","model",p?.model)}
- ${field("Serial / IMEI","serial",p?.serial)}
- ${field("Purchase date","purchase",p?.purchase,true,"date")}
- ${field("Warranty months","months",p?.months??12,false,"number")}
- ${field("Price (₹)","price",p?.price,false,"number")}
- <div class="field full"><label>Notes</label><textarea name="notes">${esc(p?.notes||"")}</textarea></div>
- </div><div class="actions"><button>${p?"Save Changes":"Register Product"}</button><button type="button" class="secondary" onclick="editId=null;go('My Products')">Cancel</button></div></form></div>`;
-}
-function field(label,name,value="",required=false,type="text"){
- if(name==="category")return `<div class="field"><label>${label}</label><select name="category">${["Appliance","Vehicle","Laptop / Computer","Mobile / Electronics","Other"].map(x=>`<option ${x===value?"selected":""}>${x}</option>`).join("")}</select></div>`;
- return `<div class="field"><label>${label}${required?" *":""}</label><input name="${name}" type="${type}" value="${esc(value)}" ${required?"required":""} ${type==="date"?'max="'+today()+'"':""}></div>`;
-}
-$("main").addEventListener("submit",e=>{
- if(e.target.id==="productForm"){
-  e.preventDefault();let d=Object.fromEntries(new FormData(e.target));
-  if(editId){Object.assign(product(editId),d);editId=null}
-  else db.products.push({...d,id:uid("P"),passport:"RHP-"+new Date().getFullYear()+"-"+String(db.products.length+1).padStart(4,"0"),ownerId:me.id,ownerName:me.name});
-  save();go("My Products");
- }
- if(e.target.id==="repairForm")submitRepair(e);
- if(e.target.id==="verifyForm"){e.preventDefault();showVerify(new FormData(e.target).get("passport"))}
- if(e.target.id==="transferForm")submitTransfer(e);
- if(e.target.id==="reminderForm"){e.preventDefault();let d=Object.fromEntries(new FormData(e.target));db.reminders.push({...d,id:uid("REM"),ownerId:me.id,done:false});save();render()}
- if(e.target.id==="techForm")submitTech(e);
-});
-function products(){
- let ps=myProducts();
- return head("My Products","Registered physical objects and their passports.")+
- `<div class="card"><div class="toolbar"><input id="searchP" placeholder="Search product or passport" oninput="filterP()"><select id="filterW" onchange="filterP()"><option value="">All warranties</option><option>Active</option><option>Expired</option></select></div><div id="pRows">${productRows(ps)}</div><div class="actions"><button class="secondary" onclick="exportProducts()">Export CSV</button><button class="secondary" onclick="backup()">Backup JSON</button></div></div>
- ${me.role==="Owner"?'<button onclick="go(\\'Register Product\\')">+ Register Product</button>':""}`;
-}
-function productRows(ps){
- if(!ps.length)return "<p class='muted'>No products registered yet.</p>";
- return `<div class="tablewrap"><table><tr><th>Product / Passport</th><th>Owner</th><th>Warranty</th><th>Repairs</th><th>Actions</th></tr>
- ${ps.map(p=>`<tr><td><b>${esc(p.name)}</b><br><span class="small">${esc(p.brand)} ${esc(p.model)}</span><br><b>${esc(p.passport)}</b></td>
- <td>${esc(ownerName(p))}</td><td>${pill(warranty(p).status)}<br>${fmt(warranty(p).end)}</td>
- <td>${db.repairs.filter(r=>r.productId===p.id).length}</td><td><button class="small" onclick="showProduct('${p.id}')">Open</button>
- ${me.role==="Owner"&&p.ownerId===me.id?`<button class="small secondary" onclick="editId='${p.id}';go('Register Product')">Edit</button><button class="small secondary" onclick="startTransfer('${p.id}')">Transfer</button><button class="small danger" onclick="deleteProduct('${p.id}')">Delete</button>`:""}</td></tr>`).join("")}</table></div>`;
-}
-function filterP(){
- let q=$("searchP").value.toLowerCase(),w=$("filterW").value;
- let ps=myProducts().filter(p=>(p.name+" "+p.brand+" "+p.passport+" "+p.serial).toLowerCase().includes(q)&&(!w||warranty(p).status===w));
- $("pRows").innerHTML=productRows(ps);
-}
-function deleteProduct(id){
- if(!confirm("Delete this product and all its repair records?"))return;
- db.products=db.products.filter(p=>p.id!==id);db.repairs=db.repairs.filter(r=>r.productId!==id);save();render();
-}
-function showProduct(id){
- let p=product(id),rs=db.repairs.filter(r=>r.productId===id);
- let qr="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(location.href.split("?")[0]+"?passport="+p.passport);
- openModal(`<h2>${esc(p.name)} <button class="secondary" onclick="closeModal()">Close</button></h2>
- <p><b>${esc(p.passport)}</b> ${pill(warranty(p).status)}</p>
- <img class="qr" src="${qr}" alt="Passport QR">
- <p>Category: ${esc(p.category)} | Brand: ${esc(p.brand)} | Model: ${esc(p.model)}</p>
- <p>Owner: ${esc(ownerName(p))} | Purchase: ${fmt(p.purchase)}</p>
- <p>Warranty expiry: ${fmt(warranty(p).end)}</p><h3>Repair History</h3>${repairTable(rs)}`);
-}function technician(){
- if(me.role!=="Technician")return "<div class='notice'>Technician access only.</div>";
- return head("Technician Portal","Submit repair details against a valid product Passport ID.")+
- `<div class="notice">Logged in as verified technician: ${esc(me.name)} • ${esc(me.centre||"Service Centre")}</div>
- <div class="card"><h2>Log Repair Entry</h2><form id="repairForm"><div class="formgrid">
- ${field("Passport ID","passport","",true)}
- ${field("Repair date","date",today(),true,"date")}
- ${field("Issue reported","issue","",true)}
- ${field("Work performed","work","",true)}
- ${field("Parts replaced","parts")}
- ${field("Repair cost (₹)","cost","0",false,"number")}
- ${field("Next service date","next","",false,"date")}
- <div class="field"><label>Invoice / Photo (optional)</label><input type="file" name="file" accept="image/*,.pdf"><span class="small">Maximum 1.5 MB.</span></div>
- <div class="field full"><label>Technician remarks</label><textarea name="remarks"></textarea></div>
- </div><div class="actions"><button>Submit for Owner Verification</button></div></form></div>
- <div class="card"><h2>My Submitted Repairs</h2>${repairTable(db.repairs.filter(r=>r.techId===me.id))}</div>`;
-}
-async function submitRepair(e){
- e.preventDefault();let f=e.target,d=Object.fromEntries(new FormData(f));
- let p=db.products.find(x=>x.passport.toUpperCase()===d.passport.trim().toUpperCase());
- if(!p)return alert("Passport ID not found. Check the ID.");
- let file=f.elements.file.files[0],attachment="";
- if(file){
-  if(file.size>1.5*1024*1024)return alert("File size must be below 1.5 MB.");
-  attachment=await new Promise(resolve=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(file)});
- }
- let r={...d,id:uid("REP"),productId:p.id,techId:me.id,technician:me.name,
-  centre:me.centre||"",attachment,filename:file?.name||"",status:"Pending Verification",created:new Date().toISOString()};
- db.repairs.push(r);
- if(d.next)db.reminders.push({id:uid("REM"),ownerId:p.ownerId,productId:p.id,date:d.next,message:"Next service for "+p.name,done:false});
- notice(p.ownerId,"New repair submitted for "+p.name+". Please verify the repair entry.","warn");
- save();alert("Repair submitted. Status: Pending Verification.");go("Technician Portal");
-}
-function repairTable(rs){
- if(!rs.length)return "<p class='muted'>No repair records found.</p>";
- return `<div class="tablewrap"><table><tr><th>Repair / Product</th><th>Technician</th><th>Details</th><th>Date / Cost</th><th>Status / Action</th></tr>
- ${rs.map(r=>{let p=product(r.productId);return `<tr>
- <td>${esc(r.id)}<br>${esc(p?.name||"Product")}<br><span class="small">${esc(r.passport)}</span></td>
- <td>${esc(r.technician||"") }<br>${esc(r.centre||"")}</td>
- <td><b>${esc(r.issue)}</b><br>${esc(r.work)}<br>Parts: ${esc(r.parts||"—")}
- ${r.attachment?`<br><a href="${r.attachment}" target="_blank">View invoice/photo</a>`:""}</td>
- <td>${fmt(r.date)}<br>₹${esc(r.cost||0)}</td>
- <td>${pill(r.status)}
- ${me.role==="Owner"&&p?.ownerId===me.id&&r.status==="Pending Verification"?`
- <div class="actions"><button class="small success" onclick="review('${r.id}','Verified')">Confirm</button>
- <button class="small danger" onclick="review('${r.id}','Disputed')">Dispute</button></div>`:""}</td></tr>`}).join("")}</table></div>`;
-}
-function repairs(){
- let rs=db.repairs;
- if(me.role==="Owner")rs=rs.filter(r=>product(r.productId)?.ownerId===me.id);
- if(me.role==="Technician")rs=rs.filter(r=>r.techId===me.id);
- return head("Repair History","Review repair entries and verification status.")+
- `<div class="card"><div class="toolbar"><input id="rsearch" placeholder="Search repair, product or Passport" oninput="filterR()">
- <select id="rstatus" onchange="filterR()"><option value="">All statuses</option><option>Pending Verification</option><option>Verified</option><option>Disputed</option></select></div>
- <div id="rrows">${repairTable(rs)}</div><button class="secondary" onclick="exportRepairs()">Export Repair CSV</button></div>`;
-}
-function filterR(){
- let q=$("rsearch").value.toLowerCase(),s=$("rstatus").value,rs=db.repairs;
- if(me.role==="Owner")rs=rs.filter(r=>product(r.productId)?.ownerId===me.id);
- if(me.role==="Technician")rs=rs.filter(r=>r.techId===me.id);
- rs=rs.filter(r=>(r.id+r.passport+r.issue+r.technician).toLowerCase().includes(q)&&(!s||r.status===s));
- $("rrows").innerHTML=repairTable(rs);
-}
-function review(id,status){
- let r=db.repairs.find(x=>x.id===id);if(!r)return;
- if(status==="Disputed"){
-  let reason=prompt("Reason for dispute?");
-  if(!reason?.trim())return;r.disputeReason=reason;
-  notice("admin","Repair "+r.id+" was disputed. Admin review required.","bad");
- }
- r.status=status;r.reviewDate=today();
- notice(r.techId,"Your repair "+r.id+" was marked "+status+".",status==="Verified"?"success":"bad");
- save();render();
-}
-function startTransfer(id){
- let p=product(id);
- openModal(`<h2>Transfer Ownership</h2><p>${esc(p.name)} • ${esc(p.passport)}</p>
- <form id="transferForm"><div class="field"><label>New owner's registered email</label><input name="email" type="email" required></div>
- <div class="field"><label>Transfer note</label><textarea name="note"></textarea></div>
- <div class="actions"><button>Send Request</button><button type="button" class="secondary" onclick="closeModal()">Cancel</button></div></form>`);
-}
-function submitTransfer(e){
- e.preventDefault();let d=Object.fromEntries(new FormData(e.target)),p=db.products.find(x=>x.ownerId===me.id&&x.id);
- let email=d.email.trim().toLowerCase(),to=db.users.find(u=>u.email.toLowerCase()===email&&u.role==="Owner");
- if(!to)return alert("The new owner must have an Owner account.");
- let modalText=$("modal").innerText;
- let pass=modalText.match(/RHP-\d{4}-\d+/)?.[0];
- p=db.products.find(x=>x.ownerId===me.id&&x.passport===pass);
- if(!p)return alert("Could not identify product. Close and try again.");
- db.transfers.push({id:uid("TR"),productId:p.id,from:me.id,to:to.id,fromName:me.name,toName:to.name,date:today(),note:d.note,status:"Pending"});
- notice(to.id,"Ownership transfer request received for "+p.name,"warn");
- save();closeModal();go("Transfers");
-}
-function transfers(){
- let ts=db.transfers.filter(t=>t.from===me.id||t.to===me.id);
- return head("Ownership Transfers","Transfer a product and let the new owner accept or reject it.")+
- `<div class="card">${ts.length?`<div class="tablewrap"><table><tr><th>Product</th><th>From</th><th>To</th><th>Date</th><th>Status / Action</th></tr>
- ${ts.map(t=>`<tr><td>${esc(product(t.productId)?.name||"Product")}<br>${esc(product(t.productId)?.passport||"")}</td>
- <td>${esc(t.fromName)}</td><td>${esc(t.toName)}</td><td>${fmt(t.date)}</td><td>${pill(t.status)}
- ${t.to===me.id&&t.status==="Pending"?`<div class="actions"><button class="small success" onclick="acceptTransfer('${t.id}')">Accept</button><button class="small danger" onclick="rejectTransfer('${t.id}')">Reject</button></div>`:""}</td></tr>`).join("")}</table></div>`:"<p>No transfer requests.</p>"}</div>`;
-}
-function acceptTransfer(id){
- let t=db.transfers.find(x=>x.id===id),p=product(t.productId);
- if(!t||!p||p.ownerId!==t.from)return alert("Transfer is no longer valid.");
- p.ownerId=t.to;p.ownerName=t.toName;t.status="Accepted";
- notice(t.from,"Ownership transfer accepted for "+p.name,"success");save();render();
-}
-function rejectTransfer(id){
- let t=db.transfers.find(x=>x.id===id);if(!t)return;
- t.status="Rejected";notice(t.from,"Ownership transfer was rejected.","bad");save();render();
-}
-function reminders(){
- let rs=db.reminders.filter(r=>r.ownerId===me.id),ps=db.products.filter(p=>p.ownerId===me.id);
- return head("Maintenance Reminders","Plan regular servicing and monitor warranty expiry.")+
- `<div class="card"><h2>Set a reminder</h2><form id="reminderForm"><div class="formgrid">
- <div class="field"><label>Product</label><select name="productId" required>${ps.map(p=>`<option value="${p.id}">${esc(p.name)} (${esc(p.passport)})</option>`).join("")}</select></div>
- <div class="field"><label>Reminder date</label><input name="date" type="date" min="${today()}" required></div>
- <div class="field full"><label>Reminder description</label><input name="message" required placeholder="Annual servicing"></div>
- </div><button ${ps.length?"":"disabled"}>Save Reminder</button></form></div>
- <div class="card"><h2>Your reminders</h2>${rs.length?`<div class="tablewrap"><table><tr><th>Product</th><th>Reminder</th><th>Date</th><th>Status</th><th>Action</th></tr>
- ${rs.map(r=>`<tr><td>${esc(product(r.productId)?.name||"Product")}</td><td>${esc(r.message)}</td><td>${fmt(r.date)}</td><td>${pill(r.done?"Completed":"Upcoming")}</td>
- <td>${r.done?"—":`<button class="small success" onclick="doneReminder('${r.id}')">Mark Done</button>`}</td></tr>`).join("")}</table></div>`:"<p>No reminders yet.</p>"}</div>`;
-}
-function doneReminder(id){let r=db.reminders.find(x=>x.id===id);if(r)r.done=true;save();render()}
-function checkReminders(){
- db.products.filter(p=>p.ownerId===me.id).forEach(p=>{
-  let w=warranty(p);if(!w.end)return;
-  let days=Math.ceil((new Date(w.end)-new Date(today()))/86400000);
-  if(days>=0&&days<=30&&!db.notifications.some(n=>n.key==="w"+p.id)){
-   db.notifications.unshift({id:uid("N"),userId:me.id,key:"w"+p.id,message:"Warranty for "+p.name+" expires on "+w.end,type:"warn",date:new Date().toISOString()});
-  }
- });
- db.reminders.filter(r=>r.ownerId===me.id&&!r.done).forEach(r=>{
-  let days=Math.ceil((new Date(r.date)-new Date(today()))/86400000);
-  if(days<=7&&!db.notifications.some(n=>n.key==="s"+r.id)){
-   db.notifications.unshift({id:uid("N"),userId:me.id,key:"s"+r.id,message:"Service reminder: "+r.message+" — due "+r.date,type:"warn",date:new Date().toISOString()});
-  }
- });save();
-}function verify(){
- return head("Verify Passport","Public verification using Passport ID.")+
- `<div class="card"><form id="verifyForm"><div class="field"><label>Passport ID</label>
- <input name="passport" placeholder="RHP-2026-0001" required></div><button>Verify Passport</button></form><div id="verifyResult"></div></div>`;
-}
-function showVerify(id){
- let p=db.products.find(x=>x.passport.toUpperCase()===String(id).trim().toUpperCase());
- if(!p){$("verifyResult").innerHTML="<div class='notice'>Passport not found.</div>";return}
- let rs=db.repairs.filter(r=>r.productId===p.id&&r.status==="Verified");
- $("verifyResult").innerHTML=`<div class="card"><h2>${esc(p.name)}</h2><b>${esc(p.passport)}</b> ${pill(warranty(p).status)}
- <p>Brand: ${esc(p.brand)} | Model: ${esc(p.model)}</p>
- <p>Purchase date: ${fmt(p.purchase)} | Warranty expiry: ${fmt(warranty(p).end)}</p>
- <h3>Verified Repair History</h3>${repairTable(rs)}
- <p class="small">Pending and disputed repairs are not shown as verified.</p></div>`;
-}
-function notifications(){
- let ns=db.notifications.filter(n=>n.userId===me.id);
- return head("Notifications","Repair updates, service reminders and transfer alerts.")+
- `<div class="card">${ns.length?ns.map(n=>`<div class="notice"><b>${esc(n.message)}</b><br><span class="small">${new Date(n.date).toLocaleString("en-IN")}</span></div>`).join(""):"No notifications."}</div>`;
-}
-function profile(){
- return head("My Profile","Account details and technician registration.")+
- `<div class="card"><p><b>Name:</b> ${esc(me.name)}</p><p><b>Email:</b> ${esc(me.email)}</p><p><b>Role:</b> ${esc(me.role)}</p>
- <p><b>Account status:</b> ${pill(me.verified?"Verified":"Pending")}</p>
- <p><b>Service Centre:</b> ${esc(me.centre||"—")}</p><p><b>Specialization:</b> ${esc(me.specialization||"—")}</p></div>
- <div class="card"><h2>Technician Registration</h2>
- <p class="muted">Technicians must submit their details and receive Admin approval before logging repair entries.</p>
- <form id="techForm"><div class="formgrid">
- ${field("Full name","name","",true)}${field("Email","email","",true,"email")}
- ${field("Password","password","",true,"password")}${field("Phone","phone","",true)}
- ${field("Service centre / business","centre","",true)}
- <div class="field"><label>Specialization</label><select name="specialization"><option>Home Appliances</option><option>Vehicle Maintenance</option><option>Laptop / Computer</option><option>Mobile / Electronics</option><option>General Repair</option><option>Other</option></select></div>
- <div class="field full"><label>Address / Service Area</label><textarea name="address" required></textarea></div>
- <div class="field full"><label>Qualification / Experience</label><textarea name="qualification"></textarea></div>
- </div><button>Submit Technician Registration</button></form></div>`;
-}
-function submitTech(e){
- e.preventDefault();let d=Object.fromEntries(new FormData(e.target));
- if(db.users.some(u=>u.email.toLowerCase()===d.email.toLowerCase()))return alert("Email already registered.");
- if(d.password.length<6)return alert("Password must have at least 6 characters.");
- db.users.push({...d,id:uid("U"),role:"Technician",verified:false});
- notice("admin","New technician registration: "+d.name+" ("+d.email+").","warn");
- save();alert("Registration submitted. Admin approval is required before technician login.");e.target.reset();
-}
-function admin(){
- if(me.role!=="Admin")return "<div class='notice'>Admin access only.</div>";
- let pending=db.users.filter(u=>u.role==="Technician"&&!u.verified);
- let disputed=db.repairs.filter(r=>r.status==="Disputed");
- return head("Admin Console","Verify technicians, manage users and review disputed repairs.")+
- cardStats([["Users",db.users.length],["Products",db.products.length],["Repairs",db.repairs.length],["Disputed",disputed.length]])+
- `<div class="card"><h2>Technician Verification Requests</h2>
- ${pending.length?`<div class="tablewrap"><table><tr><th>Name / Email</th><th>Centre</th><th>Specialization</th><th>Qualification</th><th>Action</th></tr>
- ${pending.map(u=>`<tr><td>${esc(u.name)}<br>${esc(u.email)}<br>${esc(u.phone)}</td><td>${esc(u.centre)}<br>${esc(u.address)}</td>
- <td>${esc(u.specialization)}</td><td>${esc(u.qualification)}</td><td>
- <button class="small success" onclick="approveTech('${u.id}')">Approve</button>
- <button class="small danger" onclick="rejectTech('${u.id}')">Reject</button></td></tr>`).join("")}</table></div>`:"No pending technician requests."}</div>
- <div class="card"><h2>Disputed Repair Entries</h2>${repairTable(disputed)}</div>
- <div class="card"><h2>All Users</h2><div class="tablewrap"><table><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr>
- ${db.users.map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td>${esc(u.role)}</td><td>${pill(u.verified?"Verified":"Pending")}</td></tr>`).join("")}</table></div>
- <div class="actions"><button class="secondary" onclick="exportProducts()">Products CSV</button><button class="secondary" onclick="exportRepairs()">Repairs CSV</button><button class="secondary" onclick="backup()">JSON Backup</button>
- <label>Restore JSON <input type="file" accept=".json,application/json" onchange="restoreBackup(event)"></label></div></div>`;
-}
-function approveTech(id){
- let u=user(id);if(!u)return;u.verified=true;
- notice(id,"Your technician account has been verified. You can now log in.","success");save();render();
-}
-function rejectTech(id){
- if(!confirm("Reject this technician registration?"))return;
- db.users=db.users.filter(u=>u.id!==id);save();render();
-}
-function openModal(html){$("modal").innerHTML=`<div class="modalbg" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`}
-function closeModal(){$("modal").innerHTML=""}
-function csv(rows,name){
- let data=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/csv"}));a.download=name;a.click();URL.revokeObjectURL(a.href);
-}
-function exportProducts(){
- csv([["Passport","Product","Category","Brand","Model","Serial","Owner","Purchase","Warranty months","Warranty status","Expiry"],
- ...db.products.map(p=>[p.passport,p.name,p.category,p.brand,p.model,p.serial,ownerName(p),p.purchase,p.months,warranty(p).status,warranty(p).end])],"rhp-products.csv");
-}
-function exportRepairs(){
- csv([["Repair ID","Passport","Technician","Date","Issue","Work","Parts","Cost","Status"],
- ...db.repairs.map(r=>[r.id,r.passport,r.technician,r.date,r.issue,r.work,r.parts,r.cost,r.status])],"rhp-repairs.csv");
-}
-function backup(){
- let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));
- a.download="rhp-backup.json";a.click();URL.revokeObjectURL(a.href);
-}
-function restoreBackup(e){
- let f=e.target.files[0];if(!f)return;
- let reader=new FileReader();
- reader.onload=()=>{
-  try{
-   let d=JSON.parse(reader.result);
-   if(!Array.isArray(d.users)||!Array.isArray(d.products)||!Array.isArray(d.repairs))throw Error();
-   if(!confirm("Replace current browser data with this backup?"))return;
-   db={...db,...d};save();alert("Backup restored.");render();
-  }catch{alert("Invalid RHP backup file.")}
- };
- reader.readAsText(f);
-}
-// Public QR passport page. QR opens this URL with ?passport=RHP-ID.
-const publicId=new URLSearchParams(location.search).get("passport");
-if(publicId){
- $("login").classList.add("hidden");
- $("app").classList.add("hidden");
- document.body.insertAdjacentHTML("beforeend",'<main style="max-width:900px"><h1>Public Passport Verification</h1><div id="publicResult" class="card"></div></main>');
- let p=db.products.find(x=>x.passport.toUpperCase()===publicId.toUpperCase());
- if(p){
-  let rs=db.repairs.filter(r=>r.productId===p.id&&r.status==="Verified");
-  $("publicResult").innerHTML=`<h2>${esc(p.name)}</h2><b>${esc(p.passport)}</b>
-  <p>${esc(p.category)} • ${esc(p.brand)} • ${esc(p.model)}</p>
-  <p>Warranty: ${pill(warranty(p).status)} — expires ${fmt(warranty(p).end)}</p>
-  <h3>Verified Repair History</h3>${repairTable(rs)}`;
- }else $("publicResult").innerHTML="<div class='notice'>Passport not found in this browser's saved data.</div>";
-}
-</script>
-</body>
-</html>
