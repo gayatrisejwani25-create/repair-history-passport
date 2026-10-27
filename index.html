@@ -10,28 +10,42 @@
   --primary: #3157d5;
   --dark: #18233b;
   --bg: #f4f6fb;
-  --white: #fff;
   --green: #16865c;
   --red: #c53b46;
   --border: #e1e6f0;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: var(--bg);
   color: var(--dark);
 }
+
 header {
   background: var(--dark);
   color: white;
   padding: 22px 5%;
 }
-header h1 { margin: 0 0 7px; font-size: 25px; }
-header p { margin: 0; color: #cbd5ee; }
-.container { max-width: 1200px; margin: auto; padding: 22px; }
-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
-button, .nav-button {
+
+header h1 { margin: 0 0 7px; }
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 22px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+button {
   border: 0;
   border-radius: 8px;
   padding: 11px 15px;
@@ -40,37 +54,58 @@ button, .nav-button {
   background: var(--primary);
   color: white;
 }
-button.secondary { background: #e8edff; color: var(--primary); }
-button.danger { background: var(--red); }
+
 button:hover { opacity: .9; }
+
+button.secondary {
+  background: #e8edff;
+  color: var(--primary);
+}
+
+button.danger { background: var(--red); }
+
 .panel {
-  background: var(--white);
+  background: white;
   padding: 22px;
   border-radius: 14px;
   margin-bottom: 20px;
   box-shadow: 0 3px 14px #18233b0b;
 }
-.panel h2 { margin-top: 0; }
+
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(170px,1fr));
   gap: 14px;
   margin-bottom: 20px;
 }
+
 .stat {
   background: white;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid var(--border);
 }
-.stat strong { display: block; font-size: 28px; margin-top: 8px; }
+
+.stat strong {
+  display: block;
+  font-size: 28px;
+  margin-top: 8px;
+}
+
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
   gap: 14px;
 }
-.field { display: flex; flex-direction: column; gap: 7px; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
 label { font-weight: bold; font-size: 14px; }
+
 input, select, textarea {
   width: 100%;
   padding: 11px;
@@ -79,19 +114,24 @@ input, select, textarea {
   font: inherit;
   background: white;
 }
-textarea { min-height: 85px; resize: vertical; }
-.full { grid-column: 1 / -1; }
+
+textarea { min-height: 85px; }
+
+.full { grid-column: 1/-1; }
+
 .toolbar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
   gap: 10px;
   margin-bottom: 16px;
 }
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
   gap: 15px;
 }
+
 .product-card {
   background: white;
   border: 1px solid var(--border);
@@ -99,8 +139,7 @@ textarea { min-height: 85px; resize: vertical; }
   padding: 17px;
   overflow-wrap: anywhere;
 }
-.product-card h3 { margin-top: 0; }
-.product-card p { margin: 8px 0; font-size: 14px; }
+
 .badge {
   display: inline-block;
   border-radius: 20px;
@@ -110,25 +149,58 @@ textarea { min-height: 85px; resize: vertical; }
   background: #e5f7ed;
   color: var(--green);
 }
-.badge.expired { background: #ffe9e9; color: var(--red); }
-.badge.soon { background: #fff2d7; color: #986400; }
-.card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-.card-actions button { font-size: 12px; padding: 9px; }
+
+.badge.expired {
+  background: #ffe9e9;
+  color: var(--red);
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.card-actions button { font-size: 12px; }
+
 .hidden { display: none !important; }
+
 .muted { color: #68748a; }
-.small { font-size: 13px; }
-#message { margin-bottom: 15px; font-weight: bold; }
+
+#message {
+  margin-bottom: 15px;
+  font-weight: bold;
+  min-height: 20px;
+}
+
 .owner-group {
   padding: 15px;
   border: 1px solid var(--border);
   border-radius: 10px;
   margin: 12px 0;
 }
-.owner-group h3 { margin-top: 0; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
 .table-wrap { overflow-x: auto; }
-footer { text-align: center; padding: 25px; color: #68748a; }
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #68748a;
+}
+
 @media(max-width:600px) {
   .container { padding: 13px; }
   .panel { padding: 15px; }
@@ -138,522 +210,772 @@ footer { text-align: center; padding: 25px; color: #68748a; }
 </head>
 
 <body>
+
 <header>
-  <h1>🔧 Repair History Passport</h1>
-  <p>Register products, track repairs and manage warranty details.</p>
+<h1>🔧 Repair History Passport</h1>
+<p>Register products, track repairs and manage warranty details.</p>
 </header>
 
 <main class="container">
-  <nav>
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('register')">Register Product</button>
-    <button onclick="showSection('products')">My Products</button>
-    <button onclick="showSection('repairs')">Repair History</button>
-    <button onclick="showSection('owners')">Owners & Transfer</button>
-  </nav>
 
-  <div id="message" role="status"></div>
+<nav>
+<button onclick="showSection('dashboard')">Dashboard</button>
+<button onclick="showSection('register')">Register Product</button>
+<button onclick="showSection('products')">My Products</button>
+<button onclick="showSection('repairs')">Repair History</button>
+<button onclick="showSection('owners')">Owners & Transfer</button>
+</nav>
 
-  <section id="dashboard">
-    <div class="stats">
-      <div class="stat">Total Products<strong id="totalProducts">0</strong></div>
-      <div class="stat">Active Warranties<strong id="activeWarranties">0</strong></div>
-      <div class="stat">Expired Warranties<strong id="expiredWarranties">0</strong></div>
-      <div class="stat">Repair Records<strong id="totalRepairs">0</strong></div>
-      <div class="stat">Registered Owners<strong id="totalOwners">0</strong></div>
-    </div>
+<div id="message" role="status"></div>
 
-    <div class="panel">
-      <h2>Welcome to your Product Passport</h2>
-      <p>Each registered product gets a unique Passport ID. You can register multiple products under the same owner's name.</p>
-      <p class="muted small">Note: This demo saves data in this browser using localStorage. Data is not automatically shared between different devices or users.</p>
-      <button onclick="showSection('register')">+ Register a Product</button>
-    </div>
+<section id="dashboard">
 
-    <div class="panel">
-      <h2>Warranty Reminders</h2>
-      <div id="reminders"></div>
-    </div>
-  </section>
+<div class="stats">
+<div class="stat">Total Products<strong id="totalProducts">0</strong></div>
+<div class="stat">Active Warranties<strong id="activeWarranties">0</strong></div>
+<div class="stat">Expired Warranties<strong id="expiredWarranties">0</strong></div>
+<div class="stat">Repair Records<strong id="totalRepairs">0</strong></div>
+<div class="stat">Registered Owners<strong id="totalOwners">0</strong></div>
+</div>
 
-  <section id="register" class="hidden">
-    <div class="panel">
-      <h2>Register a Product</h2>
-      <p class="muted">Register multiple products with the same owner name. Existing owner names will appear as suggestions.</p>
+<div class="panel">
+<h2>Welcome to your Product Passport</h2>
+<p>Each registered product gets a unique Passport ID.</p>
+<p class="muted">Data is saved in your browser using localStorage.</p>
+<button onclick="showSection('register')">+ Register a Product</button>
+</div>
 
-      <form id="productForm">
-        <div class="field">
-          <label for="ownerName">Owner Name *</label>
-          <input id="ownerName" list="ownerSuggestions" required placeholder="Enter owner name">
-          <datalist id="ownerSuggestions"></datalist>
-        </div>
+<div class="panel">
+<h2>Warranty Reminders</h2>
+<div id="reminders"></div>
+</div>
 
-        <div class="field">
-          <label for="ownerEmail">Owner Email</label>
-          <input id="ownerEmail" type="email" placeholder="owner@example.com">
-        </div>
+</section>
 
-        <div class="field">
-          <label for="productName">Product Name *</label>
-          <input id="productName" required placeholder="e.g. Laptop">
-        </div>
+<section id="register" class="hidden">
+<div class="panel">
 
-        <div class="field">
-          <label for="brand">Brand *</label>
-          <input id="brand" required placeholder="e.g. Dell">
-        </div>
+<h2 id="productFormTitle">Register a Product</h2>
 
-        <div class="field">
-          <label for="model">Model Number</label>
-          <input id="model" placeholder="Model number">
-        </div>
+<form id="productForm">
+<input type="hidden" id="editProductId">
 
-        <div class="field">
-          <label for="serial">Serial Number</label>
-          <input id="serial" placeholder="Serial number">
-        </div>
+<div class="field">
+<label>Owner Name *</label>
+<input id="ownerName" list="ownerSuggestions" required>
+<datalist id="ownerSuggestions"></datalist>
+</div>
 
-        <div class="field">
-          <label for="purchaseDate">Purchase Date *</label>
-          <input id="purchaseDate" type="date" required>
-        </div>
+<div class="field">
+<label>Owner Email</label>
+<input id="ownerEmail" type="email">
+</div>
 
-        <div class="field">
-          <label for="warrantyMonths">Warranty Duration *</label>
-          <select id="warrantyMonths" required>
-            <option value="0">No warranty</option>
-            <option value="3">3 months</option>
-            <option value="6">6 months</option>
-            <option value="12" selected>1 year</option>
-            <option value="24">2 years</option>
-            <option value="36">3 years</option>
-            <option value="60">5 years</option>
-          </select>
-        </div>
+<div class="field">
+<label>Product Name *</label>
+<input id="productName" required>
+</div>
 
-        <div class="field full">
-          <label for="notes">Additional Notes</label>
-          <textarea id="notes" placeholder="Product condition, specifications, etc."></textarea>
-        </div>
+<div class="field">
+<label>Brand *</label>
+<input id="brand" required>
+</div>
 
-        <div class="full">
-          <button type="submit">Register Product</button>
-          <button type="reset" class="secondary">Clear Form</button>
-        </div>
-      </form>
-    </div>
-  </section>
+<div class="field">
+<label>Model Number</label>
+<input id="model">
+</div>
 
-  <section id="products" class="hidden">
-    <div class="panel">
-      <h2>Registered Products</h2>
+<div class="field">
+<label>Serial Number</label>
+<input id="serial">
+</div>
 
-      <div class="toolbar">
-        <input id="searchInput" placeholder="Search products, owners, IDs..." oninput="renderProducts()">
+<div class="field">
+<label>Purchase Date *</label>
+<input id="purchaseDate" type="date" required>
+</div>
 
-        <select id="warrantyFilter" onchange="renderProducts()">
-          <option value="all">All Warranty Statuses</option>
-          <option value="active">Active Warranty</option>
-          <option value="expired">Expired Warranty</option>
-          <option value="none">No Warranty</option>
-        </select>
+<div class="field">
+<label>Warranty Duration</label>
+<select id="warrantyMonths">
+<option value="0">No warranty</option>
+<option value="3">3 months</option>
+<option value="6">6 months</option>
+<option value="12" selected>1 year</option>
+<option value="24">2 years</option>
+<option value="36">3 years</option>
+<option value="60">5 years</option>
+</select>
+</div>
 
-        <select id="ownerFilter" onchange="renderProducts()">
-          <option value="all">All Owners</option>
-        </select>
-      </div>
+<div class="field full">
+<label>Additional Notes</label>
+<textarea id="notes"></textarea>
+</div>
 
-      <div id="productList" class="product-grid"></div>
-    </div>
-  </section>
+<div class="full">
+<button type="submit" id="saveProductButton">Register Product</button>
+<button type="reset" class="secondary" onclick="resetProductForm()">Clear Form</button>
+</div>
 
-  <section id="repairs" class="hidden">
-    <div class="panel">
-      <h2>Add Repair Record</h2>
-      <form id="repairForm">
-        <div class="field full">
-          <label for="repairProduct">Select Product *</label>
-          <select id="repairProduct" required></select>
-        </div>
+</form>
+</div>
+</section>
 
-        <div class="field">
-          <label for="repairDate">Repair Date *</label>
-          <input id="repairDate" type="date" required>
-        </div>
+<section id="products" class="hidden">
+<div class="panel">
+<h2>Registered Products</h2>
 
-        <div class="field">
-          <label for="repairCost">Repair Cost</label>
-          <input id="repairCost" type="number" min="0" step="0.01" placeholder="₹ 0">
-        </div>
+<div class="toolbar">
+<input id="searchInput" placeholder="Search products, owners, IDs..." oninput="renderProducts()">
 
-        <div class="field">
-          <label for="repairShop">Repair Shop / Technician</label>
-          <input id="repairShop" placeholder="Service centre name">
-        </div>
+<select id="warrantyFilter" onchange="renderProducts()">
+<option value="all">All Warranty Statuses</option>
+<option value="active">Active Warranty</option>
+<option value="expired">Expired Warranty</option>
+<option value="none">No Warranty</option>
+</select>
 
-        <div class="field full">
-          <label for="repairDescription">Repair Details *</label>
-          <textarea id="repairDescription" required placeholder="Describe the problem and repair performed"></textarea>
-        </div>
+<select id="ownerFilter" onchange="renderProducts()">
+<option value="all">All Owners</option>
+</select>
+</div>
 
-        <div class="full">
-          <button type="submit">Save Repair Record</button>
-        </div>
-      </form>
-    </div>
+<div id="productList" class="product-grid"></div>
+</div>
+</section>
 
-    <div class="panel">
-      <h2>Repair History</h2>
-      <div id="repairList"></div>
-    </div>
-  </section>
+<section id="repairs" class="hidden">
 
-  <section id="owners" class="hidden">
-    <div class="panel">
-      <h2>Owners & Their Products</h2>
-      <p class="muted">Products are grouped by owner name. You can see how many products each owner has registered.</p>
-      <div id="ownerSummary"></div>
-    </div>
+<div class="panel">
+<h2>Add Repair Record</h2>
 
-    <div class="panel">
-      <h2>Transfer Product Ownership</h2>
-      <form id="transferForm">
-        <div class="field full">
-          <label for="transferProduct">Select Product *</label>
-          <select id="transferProduct" required></select>
-        </div>
+<form id="repairForm">
 
-        <div class="field">
-          <label for="newOwner">New Owner Name *</label>
-          <input id="newOwner" required placeholder="Enter new owner's name">
-        </div>
+<div class="field full">
+<label>Select Product *</label>
+<select id="repairProduct" required></select>
+</div>
 
-        <div class="field">
-          <label for="newOwnerEmail">New Owner Email</label>
-          <input id="newOwnerEmail" type="email" placeholder="newowner@example.com">
-        </div>
+<div class="field">
+<label>Repair Date *</label>
+<input id="repairDate" type="date" required>
+</div>
 
-        <div class="full">
-          <button type="submit">Transfer Ownership</button>
-        </div>
-      </form>
-    </div>
-  </section>
+<div class="field">
+<label>Repair Cost</label>
+<input id="repairCost" type="number" min="0" step="0.01">
+</div>
 
-  <section id="passport" class="hidden">
-    <div class="panel">
-      <button class="secondary" onclick="showSection('products')">← Back to Products</button>
-      <div id="passportDetails"></div>
-    </div>
-  </section>
+<div class="field">
+<label>Repair Shop / Technician</label>
+<input id="repairShop">
+</div>
 
-  <div class="panel">
-    <h2>Data & Reports</h2>
-    <p class="muted small">Download a CSV report of your registered products. Keep a backup of your data.</p>
-    <button onclick="exportCSV()">Download Products CSV</button>
-    <button class="secondary" onclick="exportRepairsCSV()">Download Repair History CSV</button>
-  </div>
+<div class="field full">
+<label>Repair Details *</label>
+<textarea id="repairDescription" required></textarea>
+</div>
+
+<div class="full">
+<button type="submit">Save Repair Record</button>
+</div>
+
+</form>
+</div>
+
+<div class="panel">
+<h2>Repair History</h2>
+<div id="repairList"></div>
+</div>
+
+</section>
+
+<section id="owners" class="hidden">
+
+<div class="panel">
+<h2>Owners & Their Products</h2>
+<div id="ownerSummary"></div>
+</div>
+
+<div class="panel">
+<h2>Transfer Product Ownership</h2>
+
+<form id="transferForm">
+
+<div class="field full">
+<label>Select Product *</label>
+<select id="transferProduct" required></select>
+</div>
+
+<div class="field">
+<label>New Owner Name *</label>
+<input id="newOwner" required>
+</div>
+
+<div class="field">
+<label>New Owner Email</label>
+<input id="newOwnerEmail" type="email">
+</div>
+
+<div class="full">
+<button type="submit">Transfer Ownership</button>
+</div>
+
+</form>
+</div>
+
+</section>
+
+<section id="passport" class="hidden">
+<div class="panel">
+<button class="secondary" onclick="showSection('products')">← Back to Products</button>
+<div id="passportDetails"></div>
+</div>
+</section>
+
+<div class="panel">
+<h2>Data & Reports</h2>
+<button onclick="exportCSV()">Download Products CSV</button>
+<button class="secondary" onclick="exportRepairsCSV()">Download Repair History CSV</button>
+<button class="secondary" onclick="exportBackup()">Download Full Backup</button>
+<button class="secondary" onclick="document.getElementById('importFile').click()">Restore Backup</button>
+<input type="file" id="importFile" accept=".json" class="hidden">
+</div>
+
 </main>
 
 <footer>Repair History Passport · Product lifecycle and repair tracking</footer>
 
 <script>
+
+"use strict";
+
 const STORAGE_KEY = "repairPassportDemoV1";
+const REPAIRS_KEY = STORAGE_KEY + "_repairs";
 
 let products = [];
 let repairs = [];
+let messageTimer;
 
+function loadData() {
 try {
-  products = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  repairs = JSON.parse(localStorage.getItem(STORAGE_KEY + "_repairs") || "[]");
-
-  if (!Array.isArray(products)) products = [];
-  if (!Array.isArray(repairs)) repairs = [];
-} catch (error) {
-  products = [];
-  repairs = [];
+const p = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+const r = JSON.parse(localStorage.getItem(REPAIRS_KEY) || "[]");
+products = Array.isArray(p) ? p : [];
+repairs = Array.isArray(r) ? r : [];
+} catch(e) {
+products = [];
+repairs = [];
+}
 }
 
 function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-  localStorage.setItem(STORAGE_KEY + "_repairs", JSON.stringify(repairs));
+try {
+localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+localStorage.setItem(REPAIRS_KEY, JSON.stringify(repairs));
+return true;
+} catch(e) {
+showMessage("Unable to save data. Check browser storage.", true);
+return false;
+}
 }
 
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, function(char) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[char];
-  });
+return String(value ?? "").replace(/[&<>"']/g, c => ({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[c]));
 }
 
-function showMessage(message) {
-  const box = document.getElementById("message");
-  box.textContent = message;
-  setTimeout(() => {
-    if (box.textContent === message) box.textContent = "";
-  }, 4000);
+function showMessage(message, error=false) {
+const box = document.getElementById("message");
+box.textContent = message;
+box.style.color = error ? "#c53b46" : "#16865c";
+clearTimeout(messageTimer);
+messageTimer = setTimeout(() => box.textContent="", 5000);
 }
 
-function showSection(sectionId) {
-  document.querySelectorAll("main > section").forEach(section => {
-    section.classList.add("hidden");
-  });
-
-  document.getElementById(sectionId).classList.remove("hidden");
-
-  render();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function showSection(id) {
+document.querySelectorAll("main > section").forEach(s => s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+render();
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function generateId() {
-  return "RHP-" + Date.now().toString(36).toUpperCase() +
-    "-" + Math.random().toString(36).slice(2, 7).toUpperCase();
+return "RHP-" + Date.now().toString(36).toUpperCase() + "-" +
+Math.random().toString(36).slice(2,7).toUpperCase();
 }
 
 function addMonths(dateString, months) {
-  const date = new Date(dateString + "T12:00:00");
-  date.setMonth(date.getMonth() + Number(months));
-  return date;
+if (!dateString) return null;
+const [y,m,d] = dateString.split("-").map(Number);
+const date = new Date(y,m-1,d,12);
+const originalDay = date.getDate();
+date.setDate(1);
+date.setMonth(date.getMonth()+Number(months));
+const last = new Date(date.getFullYear(),date.getMonth()+1,0).getDate();
+date.setDate(Math.min(originalDay,last));
+return date;
 }
 
-function warrantyStatus(product) {
-  if (!Number(product.warrantyMonths)) return "none";
-
-  const expiry = addMonths(product.purchaseDate, product.warrantyMonths);
-  expiry.setHours(23, 59, 59, 999);
-
-  return expiry >= new Date() ? "active" : "expired";
+function warrantyExpiry(p) {
+return Number(p.warrantyMonths)>0 ? addMonths(p.purchaseDate,p.warrantyMonths) : null;
 }
 
-function warrantyExpiry(product) {
-  if (!Number(product.warrantyMonths)) return null;
-  return addMonths(product.purchaseDate, product.warrantyMonths);
+function warrantyStatus(p) {
+const expiry = warrantyExpiry(p);
+if (!expiry) return "none";
+expiry.setHours(23,59,59,999);
+return expiry >= new Date() ? "active" : "expired";
 }
 
-function formatDate(dateString) {
-  if (!dateString) return "Not provided";
+function formatDate(value) {
+if (!value) return "Not provided";
+const d = new Date(value+"T12:00:00");
+return isNaN(d) ? value : d.toLocaleDateString("en-IN",{
+day:"2-digit",month:"short",year:"numeric"
+});
+}
 
-  const date = new Date(dateString + "T12:00:00");
-
-  if (Number.isNaN(date.getTime())) return dateString;
-
-  return date.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
+function money(value) {
+return "₹"+Number(value||0).toLocaleString("en-IN");
 }
 
 function getOwners() {
-  const owners = new Map();
-
-  products.forEach(product => {
-    const name = (product.owner || "").trim();
-    if (!name) return;
-
-    const key = name.toLowerCase();
-
-    if (!owners.has(key)) {
-      owners.set(key, {
-        name,
-        email: product.ownerEmail || ""
-      });
-    }
-  });
-
-  return Array.from(owners.values()).sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+const map = new Map();
+products.forEach(p => {
+const name=(p.owner||"").trim();
+if (!name) return;
+const key=name.toLowerCase();
+if (!map.has(key)) map.set(key,{name,email:p.ownerEmail||""});
+});
+return [...map.values()].sort((a,b)=>a.name.localeCompare(b.name));
 }
 
 function updateOwnerControls() {
-  const owners = getOwners();
-  const datalist = document.getElementById("ownerSuggestions");
-  const filter = document.getElementById("ownerFilter");
-  const selectedOwner = filter.value || "all";
+const owners=getOwners();
+const datalist=document.getElementById("ownerSuggestions");
+const filter=document.getElementById("ownerFilter");
+const selected=filter.value||"all";
 
-  datalist.innerHTML = owners.map(owner =>
-    `<option value="${escapeHTML(owner.name)}"></option>`
-  ).join("");
+datalist.innerHTML=owners.map(o=>`<option value="${escapeHTML(o.name)}"></option>`).join("");
 
-  filter.innerHTML = '<option value="all">All Owners</option>' +
-    owners.map(owner =>
-      `<option value="${escapeHTML(owner.name)}">${escapeHTML(owner.name)}</option>`
-    ).join("");
+filter.innerHTML='<option value="all">All Owners</option>'+
+owners.map(o=>`<option value="${escapeHTML(o.name)}">${escapeHTML(o.name)}</option>`).join("");
 
-  if ([...filter.options].some(option => option.value === selectedOwner)) {
-    filter.value = selectedOwner;
-  }
+if([...filter.options].some(o=>o.value===selected)) filter.value=selected;
 }
 
-document.getElementById("productForm").addEventListener("submit", function(event) {
-  event.preventDefault();
+function updateProductSelects() {
+const options=products.map(p=>`<option value="${escapeHTML(p.id)}">${escapeHTML(p.name)} — ${escapeHTML(p.brand)} (${escapeHTML(p.owner)})</option>`).join("");
 
-  const owner = document.getElementById("ownerName").value.trim();
-  const productName = document.getElementById("productName").value.trim();
-  const brand = document.getElementById("brand").value.trim();
-  const purchaseDate = document.getElementById("purchaseDate").value;
-
-  if (!owner || !productName || !brand || !purchaseDate) {
-    showMessage("Please complete all required fields.");
-    return;
-  }
-
-  const product = {
-    id: generateId(),
-    owner,
-    ownerEmail: document.getElementById("ownerEmail").value.trim(),
-    name: productName,
-    brand,
-    model: document.getElementById("model").value.trim(),
-    serial: document.getElementById("serial").value.trim(),
-    purchaseDate,
-    warrantyMonths: Number(document.getElementById("warrantyMonths").value),
-    notes: document.getElementById("notes").value.trim(),
-    createdAt: new Date().toISOString()
-  };
-
-  products.push(product);
-  saveData();
-
-  this.reset();
-  document.getElementById("warrantyMonths").value = "12";
-
-  render();
-  showMessage("Product registered successfully! Passport ID: " + product.id);
-  showSection("products");
+["repairProduct","transferProduct"].forEach(id=>{
+const el=document.getElementById(id);
+const old=el.value;
+el.innerHTML='<option value="">Select a product</option>'+options;
+if(products.some(p=>p.id===old)) el.value=old;
 });
-
-document.getElementById("repairForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const productId = document.getElementById("repairProduct").value;
-
-  if (!products.some(product => product.id === productId)) {
-    showMessage("Please register a product first.");
-    return;
-  }
-
-  repairs.push({
-    id: generateId(),
-    productId,
-    date: document.getElementById("repairDate").value,
-    cost: Number(document.getElementById("repairCost").value || 0),
-    shop: document.getElementById("repairShop").value.trim(),
-    description: document.getElementById("repairDescription").value.trim()
-  });
-
-  saveData();
-  this.reset();
-  render();
-  showMessage("Repair record saved successfully.");
-});
-
-document.getElementById("transferForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const product = products.find(p =>
-    p.id === document.getElementById("transferProduct").value
-  );
-
-  if (!product) {
-    showMessage("Please select a product.");
-    return;
-  }
-
-  const newOwner = document.getElementById("newOwner").value.trim();
-
-  if (!newOwner) {
-    showMessage("Enter the new owner's name.");
-    return;
-  }
-
-  const oldOwner = product.owner;
-
-  product.owner = newOwner;
-  product.ownerEmail = document.getElementById("newOwnerEmail").value.trim();
-
-  if (!product.transfers) product.transfers = [];
-
-  product.transfers.push({
-    from: oldOwner,
-    to: newOwner,
-    date: new Date().toISOString()
-  });
-
-  saveData();
-  this.reset();
-  render();
-
-  showMessage("Ownership transferred successfully.");
-});
+}
 
 function renderDashboard() {
-  document.getElementById("totalProducts").textContent = products.length;
-  document.getElementById("activeWarranties").textContent =
-    products.filter(p => warrantyStatus(p) === "active").length;
-  document.getElementById("expiredWarranties").textContent =
-    products.filter(p => warrantyStatus(p) === "expired").length;
-  document.getElementById("totalRepairs").textContent = repairs.length;
-  document.getElementById("totalOwners").textContent = getOwners().length;
+document.getElementById("totalProducts").textContent=products.length;
+document.getElementById("activeWarranties").textContent=products.filter(p=>warrantyStatus(p)==="active").length;
+document.getElementById("expiredWarranties").textContent=products.filter(p=>warrantyStatus(p)==="expired").length;
+document.getElementById("totalRepairs").textContent=repairs.length;
+document.getElementById("totalOwners").textContent=getOwners().length;
 
-  const reminders = products.filter(product => {
-    const expiry = warrantyExpiry(product);
-    if (!expiry) return false;
+const reminders=products.filter(p=>{
+const e=warrantyExpiry(p);
+if(!e) return false;
+const days=(e-Date.now())/86400000;
+return days>=0 && days<=30;
+});
 
-    const days = (expiry.getTime() - Date.now()) / 86400000;
-    return days >= 0 && days <= 30;
-  });
-
-  document.getElementById("reminders").innerHTML = reminders.length
-    ? reminders.map(product => `
-      <div class="owner-group">
-        <strong>${escapeHTML(product.name)}</strong>
-        <p>Owner: ${escapeHTML(product.owner)}</p>
-        <p>Warranty expires: ${formatDate(warrantyExpiry(product).toISOString().slice(0, 10))}</p>
-      </div>
-    `).join("")
-    : '<p class="muted">No warranties expiring in the next 30 days.</p>';
+document.getElementById("reminders").innerHTML=reminders.length
+? reminders.map(p=>`
+<div class="owner-group">
+<strong>${escapeHTML(p.name)}</strong>
+<p>Owner: ${escapeHTML(p.owner)}</p>
+<p>Warranty expires: ${formatDate(warrantyExpiry(p).toISOString().slice(0,10))}</p>
+</div>`).join("")
+: '<p class="muted">No warranties expiring in the next 30 days.</p>';
 }
 
 function renderProducts() {
-  updateOwnerControls();
+updateOwnerControls();
 
-  const search = document.getElementById("searchInput").value.toLowerCase().trim();
-  const warranty = document.getElementById("warrantyFilter").value;
-  const owner = document.getElementById("ownerFilter").value;
+const search=document.getElementById("searchInput").value.toLowerCase().trim();
+const warranty=document.getElementById("warrantyFilter").value;
+const owner=document.getElementById("ownerFilter").value;
 
-  const filtered = products.filter(product => {
-    const searchable = [
-      product.id, product.name, product.brand, product.model,
-      product.serial, product.owner, product.ownerEmail
-    ].join(" ").toLowerCase();
+const filtered=products.filter(p=>{
+const text=[p.id,p.name,p.brand,p.model,p.serial,p.owner,p.ownerEmail].join(" ").toLowerCase();
+return text.includes(search) &&
+(warranty==="all" || warrantyStatus(p)===warranty) &&
+(owner==="all" || p.owner.toLowerCase()===owner.toLowerCase());
+});
 
-    const matchesSearch = searchable.includes(search);
-    const matchesWarranty = warranty === "all" ||
-      warrantyStatus(product) === warranty;
-    const matchesOwner = owner === "all" ||
-      product.owner.toLowerCase() === owner.toLowerCase();
+const list=document.getElementById("productList");
 
-    return matchesSearch && matchesWarranty && matchesOwner;
-  });
+if (!filtered.length) {
+list.innerHTML='<p class="muted">No matching products found.</p>';
+return;
+}
 
-  const list = document.getElementById("productList");
+list.innerHTML=filtered.map(p=>{
+const status=warrantyStatus(p);
+const statusText=status==="active"?"Warranty Active":status==="expired"?"Warranty Expired":"No Warranty";
 
-  if (!filtered.length) {
-    list.innerHTML = '<p class="muted">No matching products found. Try changing the filters or register a product.</p>';
-    return;
-  }
+return `
+<div class="product-card">
+<h3>${escapeHTML(p.name)}</h3>
+<span class="badge ${status==="active"?"":"expired"}">${statusText}</span>
+<p><b>Passport ID:</b> ${escapeHTML(p.id)}</p>
+<p><b>Brand:</b> ${escapeHTML(p.brand)}</p>
+<p><b>Model:</b> ${escapeHTML(p.model||"Not provided")}</p>
+<p><b>Owner:</b> ${escapeHTML(p.owner)}</p>
+<p><b>Purchase:</b> ${formatDate(p.purchaseDate)}</p>
+<p><b>Warranty ends:</b> ${formatDate(warrantyExpiry(p)?.toISOString().slice(0,10))}</p>
+<p><b>Repair records:</b> ${repairs.filter(r=>r.productId===p.id).length}</p>
+<div class="card-actions">
+<button onclick="viewPassport('${p.id}')">View Passport</button>
+<button class="secondary" onclick="editProduct('${p.id}')">Edit</button>
+<button class="danger" onclick="deleteProduct('${p.id}')">Delete</button>
+</div>
+</div>`;
+}).join("");
+}
 
-  list.innerHTML = filtered.map(product => {
-    const status = warrantyStatus(product);
-    const badgeClass = status === "expired" || status === "none" ? "expired" : "";
-    const statusText = status === "active" ? "Warranty Active" :
-      status === "expired" ? "Warranty Expired" : "No Warranty";
+function renderRepairs() {
+const list=document.getElementById("repairList");
 
-    const productRepairs = r
+if (!repairs.length) {
+list.innerHTML='<p class="muted">No repair records yet.</p>';
+return;
+}
+
+const sorted=[...repairs].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+
+list.innerHTML='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Details</th><th>Shop</th><th>Cost</th><th>Action</th></tr></thead><tbody>'+
+sorted.map(r=>{
+const p=products.find(x=>x.id===r.productId);
+return `<tr>
+<td>${formatDate(r.date)}</td>
+<td>${escapeHTML(p?.name||"Deleted product")}</td>
+<td>${escapeHTML(r.description)}</td>
+<td>${escapeHTML(r.shop||"—")}</td>
+<td>${money(r.cost)}</td>
+<td><button class="danger" onclick="deleteRepair('${r.id}')">Delete</button></td>
+</tr>`;
+}).join("")+'</tbody></table></div>';
+}
+
+function renderOwners() {
+const target=document.getElementById("ownerSummary");
+const owners=getOwners();
+
+if (!owners.length) {
+target.innerHTML='<p class="muted">No owners registered yet.</p>';
+return;
+}
+
+target.innerHTML=owners.map(o=>{
+const owned=products.filter(p=>p.owner.toLowerCase()===o.name.toLowerCase());
+return `<div class="owner-group">
+<h3>${escapeHTML(o.name)}</h3>
+<p>Email: ${escapeHTML(o.email||"Not provided")}</p>
+<p><b>${owned.length}</b> registered product(s)</p>
+<ul>${owned.map(p=>`<li>${escapeHTML(p.name)} — ${escapeHTML(p.brand)} (${escapeHTML(p.id)})</li>`).join("")}</ul>
+</div>`;
+}).join("");
+}
+
+function renderPassport(id) {
+const p=products.find(x=>x.id===id);
+if (!p) return;
+
+const history=repairs.filter(r=>r.productId===id);
+const transfers=p.transfers||[];
+
+document.getElementById("passportDetails").innerHTML=`
+<h2>Product Passport</h2>
+<h3>${escapeHTML(p.name)}</h3>
+<p><b>Passport ID:</b> ${escapeHTML(p.id)}</p>
+<p><b>Owner:</b> ${escapeHTML(p.owner)}</p>
+<p><b>Owner Email:</b> ${escapeHTML(p.ownerEmail||"Not provided")}</p>
+<p><b>Brand:</b> ${escapeHTML(p.brand)}</p>
+<p><b>Model:</b> ${escapeHTML(p.model||"Not provided")}</p>
+<p><b>Serial:</b> ${escapeHTML(p.serial||"Not provided")}</p>
+<p><b>Purchase Date:</b> ${formatDate(p.purchaseDate)}</p>
+<p><b>Warranty:</b> ${p.warrantyMonths} months (${warrantyStatus(p)})</p>
+<p><b>Warranty Expiry:</b> ${formatDate(warrantyExpiry(p)?.toISOString().slice(0,10))}</p>
+<p><b>Notes:</b> ${escapeHTML(p.notes||"None")}</p>
+<h3>Repair History (${history.length})</h3>
+${history.length?'<ul>'+history.map(r=>`<li>${formatDate(r.date)} — ${escapeHTML(r.description)} | ${money(r.cost)}</li>`).join("")+'</ul>':'<p>No repairs recorded.</p>'}
+<h3>Ownership Transfer History</h3>
+${transfers.length?'<ul>'+transfers.map(t=>`<li>${escapeHTML(t.from)} → ${escapeHTML(t.to)} (${formatDate(t.date.slice(0,10))})</li>`).join("")+'</ul>':'<p>No ownership transfers.</p>'}
+`;
+}
+
+function viewPassport(id) {
+renderPassport(id);
+showSection("passport");
+}
+
+function resetProductForm() {
+document.getElementById("editProductId").value="";
+document.getElementById("productFormTitle").textContent="Register a Product";
+document.getElementById("saveProductButton").textContent="Register Product";
+document.getElementById("warrantyMonths").value="12";
+}
+
+function editProduct(id) {
+const p=products.find(x=>x.id===id);
+if (!p) return;
+
+showSection("register");
+
+document.getElementById("editProductId").value=p.id;
+document.getElementById("ownerName").value=p.owner||"";
+document.getElementById("ownerEmail").value=p.ownerEmail||"";
+document.getElementById("productName").value=p.name||"";
+document.getElementById("brand").value=p.brand||"";
+document.getElementById("model").value=p.model||"";
+document.getElementById("serial").value=p.serial||"";
+document.getElementById("purchaseDate").value=p.purchaseDate||"";
+document.getElementById("warrantyMonths").value=String(p.warrantyMonths??12);
+document.getElementById("notes").value=p.notes||"";
+
+document.getElementById("productFormTitle").textContent="Edit Product";
+document.getElementById("saveProductButton").textContent="Update Product";
+}
+
+function deleteProduct(id) {
+const p=products.find(x=>x.id===id);
+if (!p || !confirm(`Delete ${p.name}? Its repair records will also be deleted.`)) return;
+
+products=products.filter(x=>x.id!==id);
+repairs=repairs.filter(r=>r.productId!==id);
+
+if(saveData()) {
+render();
+showMessage("Product deleted successfully.");
+}
+}
+
+function deleteRepair(id) {
+if (!confirm("Delete this repair record?")) return;
+repairs=repairs.filter(r=>r.id!==id);
+if(saveData()) {
+render();
+showMessage("Repair record deleted.");
+}
+}
+
+document.getElementById("productForm").addEventListener("submit",function(e) {
+e.preventDefault();
+
+const id=document.getElementById("editProductId").value;
+
+const data={
+owner:document.getElementById("ownerName").value.trim(),
+ownerEmail:document.getElementById("ownerEmail").value.trim(),
+name:document.getElementById("productName").value.trim(),
+brand:document.getElementById("brand").value.trim(),
+model:document.getElementById("model").value.trim(),
+serial:document.getElementById("serial").value.trim(),
+purchaseDate:document.getElementById("purchaseDate").value,
+warrantyMonths:Number(document.getElementById("warrantyMonths").value),
+notes:document.getElementById("notes").value.trim()
+};
+
+if(!data.owner||!data.name||!data.brand||!data.purchaseDate) {
+showMessage("Please complete all required fields.",true);
+return;
+}
+
+if(id) {
+const index=products.findIndex(p=>p.id===id);
+if(index<0) return;
+products[index]={...products[index],...data};
+} else {
+products.push({
+id:generateId(),
+...data,
+createdAt:new Date().toISOString(),
+transfers:[]
+});
+}
+
+if(!saveData()) return;
+
+this.reset();
+resetProductForm();
+render();
+showMessage(id?"Product updated successfully.":"Product registered successfully.");
+showSection("products");
+});
+
+document.getElementById("repairForm").addEventListener("submit",function(e) {
+e.preventDefault();
+
+const productId=document.getElementById("repairProduct").value;
+if(!products.some(p=>p.id===productId)) {
+showMessage("Please select a registered product.",true);
+return;
+}
+
+const cost=Number(document.getElementById("repairCost").value||0);
+
+if(cost<0 || !Number.isFinite(cost)) {
+showMessage("Enter a valid repair cost.",true);
+return;
+}
+
+repairs.push({
+id:generateId(),
+productId,
+date:document.getElementById("repairDate").value,
+cost,
+shop:document.getElementById("repairShop").value.trim(),
+description:document.getElementById("repairDescription").value.trim()
+});
+
+if(!saveData()) return;
+
+this.reset();
+render();
+showMessage("Repair record saved successfully.");
+});
+
+document.getElementById("transferForm").addEventListener("submit",function(e) {
+e.preventDefault();
+
+const p=products.find(x=>x.id===document.getElementById("transferProduct").value);
+const newOwner=document.getElementById("newOwner").value.trim();
+
+if(!p || !newOwner) {
+showMessage("Select a product and enter the new owner.",true);
+return;
+}
+
+if(newOwner.toLowerCase()===p.owner.toLowerCase()) {
+showMessage("This product already belongs to that owner.",true);
+return;
+}
+
+p.transfers=p.transfers||[];
+p.transfers.push({
+from:p.owner,
+to:newOwner,
+date:new Date().toISOString()
+});
+
+p.owner=newOwner;
+p.ownerEmail=document.getElementById("newOwnerEmail").value.trim();
+
+if(!saveData()) return;
+
+this.reset();
+render();
+showMessage("Ownership transferred successfully.");
+});
+
+function csvCell(value) {
+return '"'+String(value??"").replace(/"/g,'""')+'"';
+}
+
+function downloadFile(content,name,type) {
+const blob=new Blob([content],{type});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download=name;
+document.body.appendChild(a);
+a.click();
+a.remove();
+URL.revokeObjectURL(url);
+}
+
+function exportCSV() {
+const headers=["Passport ID","Owner","Owner Email","Product","Brand","Model","Serial","Purchase Date","Warranty Months","Warranty Expiry","Warranty Status","Notes"];
+
+const rows=products.map(p=>[
+p.id,p.owner,p.ownerEmail,p.name,p.brand,p.model,p.serial,
+p.purchaseDate,p.warrantyMonths,
+warrantyExpiry(p)?.toISOString().slice(0,10)||"",
+warrantyStatus(p),p.notes
+]);
+
+downloadFile("\uFEFF"+[headers,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n"),
+"repair-passport-products.csv","text/csv;charset=utf-8;");
+}
+
+function exportRepairsCSV() {
+const headers=["Repair ID","Passport ID","Product","Repair Date","Cost","Shop","Description"];
+
+const rows=repairs.map(r=>{
+const p=products.find(x=>x.id===r.productId);
+return [r.id,r.productId,p?.name||"Deleted product",r.date,r.cost,r.shop,r.description];
+});
+
+downloadFile("\uFEFF"+[headers,...rows].map(r=>r.map(csvCell).join(",")).join("\r\n"),
+"repair-passport-repairs.csv","text/csv;charset=utf-8;");
+}
+
+function exportBackup() {
+downloadFile(JSON.stringify({
+version:1,
+exportedAt:new Date().toISOString(),
+products,
+repairs
+},null,2),"repair-passport-backup.json","application/json");
+}
+
+document.getElementById("importFile").addEventListener("change",async function() {
+const file=this.files[0];
+if(!file) return;
+
+try {
+const data=JSON.parse(await file.text());
+
+if(!Array.isArray(data.products)||!Array.isArray(data.repairs))
+throw new Error("Invalid backup");
+
+if(!confirm("Restore backup? Current data will be replaced.")) {
+this.value="";
+return;
+}
+
+products=data.products;
+repairs=data.repairs;
+
+if(saveData()) {
+render();
+showMessage("Backup restored successfully.");
+showSection("dashboard");
+}
+
+} catch(e) {
+showMessage("Invalid backup file.",true);
+}
+
+this.value="";
+});
+
+function render() {
+renderDashboard();
+renderProducts();
+renderRepairs();
+renderOwners();
+updateProductSelects();
+}
+
+loadData();
+render();
+
+</script>
+</body>
+</html>
