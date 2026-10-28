@@ -29,6 +29,9 @@ label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px;color:var(-
 .tabs{display:flex;background:#eaf0f5;border-radius:12px;padding:4px;margin:16px 0}.tabs button{flex:1;background:transparent;color:var(--mute)}.tabs button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .seg{display:flex;gap:8px}.seg button{flex:1;background:#eaf0f5;color:var(--mute)}.seg button.on{background:var(--teal);color:#fff}
 .full{width:100%;margin-top:18px}.msg{margin-top:12px;font-size:14px;color:var(--red);min-height:18px}
+.otpbox{margin-top:14px;padding:14px;border-radius:12px;background:#fff7e6;border:1.5px dashed var(--amber);text-align:center}
+.otpbox b{display:block;font-family:Sora;font-size:34px;letter-spacing:8px;color:var(--navy);margin:6px 0}
+.okbox{margin-top:14px;padding:14px;border-radius:12px;background:#e6f7ef;color:#13734e;font-size:14px}
 .top{background:var(--navy);color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
 .wrap{max-width:1100px;margin:0 auto;padding:26px 5%}
 .nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.nav button{background:#fff;color:var(--navy);border:1.5px solid var(--line)}.nav button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
@@ -51,11 +54,18 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;bor
 <body>
 <div id="app"></div><div id="toasts"></div><div id="modal"></div>
 <script>
+/* =====================================================
+   EMAILJS SETTINGS  (email OTP asli bhejne ke liye)
+   emailjs.com se teeno values copy karke yahan daalo
+   ===================================================== */
+const EMAILJS = { publicKey: '', serviceId: '', templateId: '' };
+
 /* ---------- STORAGE (browser localStorage – works on GitHub Pages) ---------- */
 let DB; try{DB=JSON.parse(localStorage.getItem('fixora'))}catch(e){}
 if(!DB){DB={users:[{id:'u0',name:'Admin',role:'admin',type:'email',contact:'admin@fixora.com',pw:'Admin@123',verified:true}],products:[],repairs:[],notifs:[],seq:1}}
 const save=()=>localStorage.setItem('fixora',JSON.stringify(DB));
-let ses=localStorage.getItem('fixora_ses'),tab='',authTab='login',ctype='email',pending=null,otp=null;
+let ses=localStorage.getItem('fixora_ses'),tab='',authTab='login',ctype='email',pending=null;
+let otp=null,otpAt=0,tries=0,lastSend=0,otpMode='demo';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const me=()=>DB.users.find(u=>u.id===ses),uid=()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const fmt=d=>d?new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
@@ -74,13 +84,17 @@ $('#app').innerHTML=`<div class="hero"><div class="hero-l">
 <div><label style="color:#c6dbe6">Buying a second-hand product? Verify its passport (no login needed)</label>
 <div class="vbox"><input id="vid" placeholder="Enter Passport ID e.g. RHP-2026-0001"><button class="alt" onclick="verify($('#vid').value)">Verify</button></div></div>
 </div><div class="hero-r"><div class="auth" id="authbox"></div></div></div>`;authBox()}
+function otpInfo(){
+if(otpMode=='sending')return `<div class="okbox">⏳ Sending OTP to your email…</div>`;
+if(otpMode=='email')return `<div class="okbox">✅ OTP sent to <b>${esc(pending.u.contact)}</b>. Check Inbox / Spam.</div>`;
+return `<div class="otpbox"><span class="mute">Demo mode – your OTP is</span><b>${otp}</b><span class="mute">Real SMS/email gateway is not connected, so the OTP is shown here.</span></div>`}
 function authBox(){
 const reg=authTab=='reg';
 $('#authbox').innerHTML=`<h2>${pending?'Verify OTP':'Welcome 👋'}</h2>`+(pending?`
-<p class="mute mt">We sent a 6-digit OTP to <b>${esc(pending.u.contact)}</b>.</p>
-<label>Enter OTP</label><input id="otp" maxlength="6" inputmode="numeric" placeholder="______" style="letter-spacing:8px;font-size:22px;text-align:center">
+<p class="mute mt">Verification for <b>${esc(pending.u.contact)}</b></p>${otpInfo()}
+<label>Enter 6-digit OTP</label><input id="otp" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="______" oninput="this.value=this.value.replace(/\\D/g,'');if(this.value.length==6)checkOtp()" style="letter-spacing:8px;font-size:22px;text-align:center">
 <button class="full" onclick="checkOtp()">Verify & Continue</button>
-<button class="full ghost" onclick="sendOtp()">Resend OTP</button><button class="full ghost" onclick="pending=null;authBox()">← Back</button>`:`
+<button class="full ghost" onclick="sendOtp()">Resend OTP</button><button class="full ghost" onclick="pending=null;otp=null;authBox()">← Back</button>`:`
 <div class="tabs"><button class="${reg?'':'on'}" onclick="authTab='login';authBox()">Login</button><button class="${reg?'on':''}" onclick="authTab='reg';authBox()">Create Now</button></div>
 ${reg?`<label>Full Name</label><input id="nm" placeholder="Your name">
 <label>I am a</label><select id="rl"><option value="owner">Product Owner</option><option value="technician">Technician / Service Centre</option></select>`:''}
@@ -88,22 +102,39 @@ ${reg?`<label>Full Name</label><input id="nm" placeholder="Your name">
 <label>${ctype=='email'?'Email address':'Phone number'}</label><input id="ct" type="${ctype=='email'?'email':'tel'}" placeholder="${ctype=='email'?'you@example.com':'10-digit mobile number'}">
 <label>Password</label><input id="pw" type="password" placeholder="Minimum 6 characters">
 <button class="full" onclick="${reg?'doReg()':'doLogin()'}">${reg?'Create Account':'Login'}</button>`)+`<div class="msg" id="msg"></div>`}
-const err=t=>$('#msg').textContent=t;
+const err=t=>{const m=$('#msg');if(m)m.textContent=t};
 function doReg(){const n=$('#nm').value.trim(),c=$('#ct').value.trim(),p=$('#pw').value;
 if(!n||!c||p.length<6)return err('Fill all fields (password min 6 chars).');
 if(ctype=='email'&&!/^\S+@\S+\.\S+$/.test(c))return err('Enter a valid email.');
 if(ctype=='phone'&&!/^\d{10}$/.test(c))return err('Enter a valid 10-digit phone number.');
 if(findU(c))return err('Account already exists. Please login.');
 const role=$('#rl').value,u={id:uid(),name:n,role,type:ctype,contact:c,pw:p,verified:role=='owner'};
-DB.users.push(u);save();pending={u};sendOtp();authBox();
-DB.users.filter(x=>x.role=='admin').forEach(a=>notify(a.id,`New ${role} registered: ${n}`))}
+DB.users.push(u);save();
+DB.users.filter(x=>x.role=='admin').forEach(a=>notify(a.id,`New ${role} registered: ${n}`));
+pending={u};authBox();sendOtp(true)}
 function doLogin(){const c=$('#ct').value.trim(),u=findU(c);
 if(!u||u.pw!=$('#pw').value)return err('Wrong contact or password.');
-pending={u};sendOtp();authBox()}
-function sendOtp(){otp=String(Math.floor(100000+Math.random()*900000));
-toast(`🔐 <b>DEMO OTP: ${otp}</b><br><small>(would be sent to ${esc(pending.u.contact)} by email/SMS gateway)</small>`,20000)}
-function checkOtp(){if($('#otp').value.trim()!=otp)return err('Incorrect OTP.');
-ses=pending.u.id;localStorage.setItem('fixora_ses',ses);pending=null;tab='';appView()}
+pending={u};authBox();sendOtp(true)}
+async function sendOtp(first){
+const now=Date.now();
+if(!first&&now-lastSend<30000)return toast(`Please wait ${Math.ceil((30000-(now-lastSend))/1000)}s before resending.`,3000);
+const u=pending.u;otp=String(Math.floor(100000+Math.random()*900000));otpAt=now;lastSend=now;tries=0;
+const canMail=u.type=='email'&&u.role!='admin'&&EMAILJS.publicKey&&EMAILJS.serviceId&&EMAILJS.templateId;
+otpMode=canMail?'sending':'demo';authBox();
+if(!canMail)return;
+try{
+const r=await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({service_id:EMAILJS.serviceId,template_id:EMAILJS.templateId,user_id:EMAILJS.publicKey,
+template_params:{to_email:u.contact,to_name:u.name,otp:otp}})});
+otpMode=r.ok?'email':'demo';
+if(!r.ok)toast('⚠ Email could not be sent. OTP shown on screen instead.',6000)
+}catch(e){otpMode='demo';toast('⚠ Network problem. OTP shown on screen instead.',6000)}
+if(pending)authBox()}
+function checkOtp(){const v=$('#otp').value.trim();if(v.length<6)return err('Enter the 6-digit OTP.');
+if(Date.now()-otpAt>300000)return err('OTP expired. Tap Resend OTP.');
+if(tries>=5)return err('Too many attempts. Tap Resend OTP.');
+if(v!=otp){tries++;$('#otp').value='';return err(`Incorrect OTP. ${5-tries} attempt(s) left.`)}
+ses=pending.u.id;localStorage.setItem('fixora_ses',ses);pending=null;otp=null;tab='';appView()}
 function logout(){ses=null;localStorage.removeItem('fixora_ses');tab='';authView()}
 
 /* ---------- APP SHELL ---------- */
@@ -150,9 +181,9 @@ function doTransfer(pid){const u=findU($('#tt').value);if(!u||u.role!='owner'||u
 DB.products.find(p=>p.pid==pid).transferTo=u.id;notify(u.id,`${me().name} wants to transfer ${pid} to you. Open "Transfers" to accept.`);save();toast('📨 Transfer request sent');closeM();appView()}
 function vInc(){const l=DB.products.filter(p=>p.transferTo==ses);$('#view').innerHTML=`<h2>Incoming Transfers</h2><div class="grid mt">${l.map(p=>`<div class="card"><b>${esc(p.brand)} ${esc(p.model)}</b> <span class="pid">${p.pid}</span><p class="mute">From ${esc(DB.users.find(u=>u.id==p.ownerId).name)}</p><div class="row mt"><button class="sm" onclick="acc('${p.pid}',1)">Accept</button><button class="sm red" onclick="acc('${p.pid}',0)">Decline</button></div></div>`).join('')||'<p class="mute">No incoming transfers.</p>'}</div>`}
 function acc(pid,y){const p=DB.products.find(x=>x.pid==pid);if(y){notify(p.ownerId,`${me().name} accepted ${pid}.`);p.ownerId=ses}p.transferTo=null;save();toast(y?'✅ Ownership transferred with full history':'Declined');appView()}
-function rule(id,ok){const r=DB.repairs.find(x=>x.id==id),p=DB.products.find(x=>x.pid==r.pid);r.status=ok?'Verified':'Disputed';
+function rule(id,ok){const r=DB.repairs.find(x=>x.id==id);r.status=ok?'Verified':'Disputed';
 notify(r.techId,`Your repair entry on ${r.pid} was ${r.status.toLowerCase()} by the owner.`);
-if(!ok)DB.users.filter(u=>u.role=='admin').forEach(a=>notify(a.id,`Disputed record on ${r.pid}`));save();openProd(p.pid);appView();openProd(p.pid)}
+if(!ok)DB.users.filter(u=>u.role=='admin').forEach(a=>notify(a.id,`Disputed record on ${r.pid}`));save();appView();openProd(r.pid)}
 
 /* ---------- TECHNICIAN ---------- */
 function vLog(){const u=me();$('#view').innerHTML=!u.verified?`<div class="card"><h2>⏳ Awaiting admin verification</h2><p class="mute mt">The admin must verify your technician account before you can log repairs.</p></div>`:`<div class="card" style="max-width:680px"><h2>Log Repair Entry</h2><p class="mute">Enter the Passport ID (or scan the QR with your phone camera – it opens the passport link).</p>
