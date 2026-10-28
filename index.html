@@ -1,207 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixora Hub – Repair History Passport</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--navy:#0b2545;--teal:#0e7c86;--amber:#f5a623;--bg:#f2f6f9;--ink:#10243e;--mute:#62748a;--card:#fff;--red:#d64545;--green:#1f9d6b;--line:#dbe4ec}
+*{box-sizing:border-box;margin:0}
+body{font-family:'DM Sans',Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+h1,h2,h3{font-family:'Sora',Arial,sans-serif}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:11px 18px;font-weight:700;background:var(--teal);color:#fff;transition:.15s}
+button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+button.alt{background:var(--amber);color:var(--navy)}button.ghost{background:#e8eff5;color:var(--navy)}button.red{background:var(--red)}button.sm{padding:7px 12px;font-size:13px}
+input,select,textarea{width:100%;font:inherit;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--teal)}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px;color:var(--mute)}
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;background:linear-gradient(135deg,#0b2545 0%,#13526b 60%,#0e7c86 100%);color:#fff}
+.hero-l{padding:60px 7%;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.logo{font-family:'Sora';font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px}.logo i{background:var(--amber);color:var(--navy);width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-style:normal}
+.hero h1{font-size:clamp(32px,4.5vw,54px);line-height:1.1}.hero h1 span{color:var(--amber)}
+.hero p{color:#c6dbe6;max-width:520px;line-height:1.6}
+.chips{display:flex;gap:10px;flex-wrap:wrap}.chips b{background:rgba(255,255,255,.12);padding:8px 14px;border-radius:99px;font-size:13px}
+.vbox{display:flex;gap:8px;max-width:460px}.vbox input{border:0}
+.hero-r{display:grid;place-items:center;padding:30px}
+.auth{background:#fff;color:var(--ink);width:100%;max-width:440px;border-radius:20px;padding:30px;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+.tabs{display:flex;background:#eaf0f5;border-radius:12px;padding:4px;margin:16px 0}.tabs button{flex:1;background:transparent;color:var(--mute)}.tabs button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.seg{display:flex;gap:8px}.seg button{flex:1;background:#eaf0f5;color:var(--mute)}.seg button.on{background:var(--teal);color:#fff}
+.full{width:100%;margin-top:18px}.msg{margin-top:12px;font-size:14px;color:var(--red);min-height:18px}
+.top{background:var(--navy);color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 5%}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.nav button{background:#fff;color:var(--navy);border:1.5px solid var(--line)}.nav button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:var(--card);border-radius:16px;padding:20px;box-shadow:0 4px 18px rgba(11,37,69,.07);border:1px solid var(--line)}
+.stat{border-left:5px solid var(--teal)}.stat b{font-family:Sora;font-size:30px;display:block}
+.pid{font-family:monospace;background:#e3f3f4;color:var(--teal);padding:3px 8px;border-radius:6px;font-weight:700;font-size:13px}
+.badge{font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px}.b-p{background:#fff1d6;color:#a86a00}.b-v{background:#d9f4e8;color:#13734e}.b-d{background:#fde2e2;color:#a82f2f}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}.mt{margin-top:14px}.mute{color:var(--mute);font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal{position:fixed;inset:0;background:rgba(8,20,38,.6);display:grid;place-items:center;padding:16px;z-index:20;overflow:auto}
+.modal .card{max-width:680px;width:100%;max-height:92vh;overflow:auto}
+.tl{border-left:3px solid var(--line);padding-left:16px;margin:12px 0 0 6px}.tl>div{margin-bottom:16px;position:relative}.tl>div:before{content:'';position:absolute;left:-23px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--teal)}
+#toasts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:50}
+.toast{background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;max-width:320px;border-left:5px solid var(--amber);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:14px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="toasts"></div><div id="modal"></div>
+<script>
+/* ---------- STORAGE (browser localStorage – works on GitHub Pages) ---------- */
+let DB; try{DB=JSON.parse(localStorage.getItem('fixora'))}catch(e){}
+if(!DB){DB={users:[{id:'u0',name:'Admin',role:'admin',type:'email',contact:'admin@fixora.com',pw:'Admin@123',verified:true}],products:[],repairs:[],notifs:[],seq:1}}
+const save=()=>localStorage.setItem('fixora',JSON.stringify(DB));
+let ses=localStorage.getItem('fixora_ses'),tab='',authTab='login',ctype='email',pending=null,otp=null;
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const me=()=>DB.users.find(u=>u.id===ses),uid=()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const fmt=d=>d?new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+function toast(t,ms=6000){const d=document.createElement('div');d.className='toast';d.innerHTML=t;$('#toasts').append(d);setTimeout(()=>d.remove(),ms)}
+function notify(userId,text){DB.notifs.unshift({id:uid(),userId,text,at:Date.now(),read:false});save()}
+const badge=s=>`<span class="badge ${s=='Verified'?'b-v':s=='Disputed'?'b-d':'b-p'}">${s}</span>`;
+const findU=v=>DB.users.find(u=>u.contact.toLowerCase()==String(v).trim().toLowerCase());
 
-<div id="login" class="login">
-  <div class="card">
-    <h1>Welcome to Fixora Hub</h1>
-    <p class="muted">Your Repair History Passport starts here.</p>
+/* ---------- AUTH ---------- */
+function authView(){
+$('#app').innerHTML=`<div class="hero"><div class="hero-l">
+<div class="logo"><i>F</i>Fixora Hub</div>
+<h1>Every repair. <span>One passport.</span></h1>
+<p>Register your products, get a unique QR passport, track every repair, never miss a warranty or service date, and transfer full history to the next owner.</p>
+<div class="chips"><b>📷 Scan • Track • Verify</b><b>🔔 Smart reminders</b><b>🔁 Ownership transfer</b></div>
+<div><label style="color:#c6dbe6">Buying a second-hand product? Verify its passport (no login needed)</label>
+<div class="vbox"><input id="vid" placeholder="Enter Passport ID e.g. RHP-2026-0001"><button class="alt" onclick="verify($('#vid').value)">Verify</button></div></div>
+</div><div class="hero-r"><div class="auth" id="authbox"></div></div></div>`;authBox()}
+function authBox(){
+const reg=authTab=='reg';
+$('#authbox').innerHTML=`<h2>${pending?'Verify OTP':'Welcome 👋'}</h2>`+(pending?`
+<p class="mute mt">We sent a 6-digit OTP to <b>${esc(pending.u.contact)}</b>.</p>
+<label>Enter OTP</label><input id="otp" maxlength="6" inputmode="numeric" placeholder="______" style="letter-spacing:8px;font-size:22px;text-align:center">
+<button class="full" onclick="checkOtp()">Verify & Continue</button>
+<button class="full ghost" onclick="sendOtp()">Resend OTP</button><button class="full ghost" onclick="pending=null;authBox()">← Back</button>`:`
+<div class="tabs"><button class="${reg?'':'on'}" onclick="authTab='login';authBox()">Login</button><button class="${reg?'on':''}" onclick="authTab='reg';authBox()">Create Now</button></div>
+${reg?`<label>Full Name</label><input id="nm" placeholder="Your name">
+<label>I am a</label><select id="rl"><option value="owner">Product Owner</option><option value="technician">Technician / Service Centre</option></select>`:''}
+<label>OTP will be sent via</label><div class="seg"><button class="${ctype=='email'?'on':''}" onclick="ctype='email';authBox()">✉ Email</button><button class="${ctype=='phone'?'on':''}" onclick="ctype='phone';authBox()">📱 Phone</button></div>
+<label>${ctype=='email'?'Email address':'Phone number'}</label><input id="ct" type="${ctype=='email'?'email':'tel'}" placeholder="${ctype=='email'?'you@example.com':'10-digit mobile number'}">
+<label>Password</label><input id="pw" type="password" placeholder="Minimum 6 characters">
+<button class="full" onclick="${reg?'doReg()':'doLogin()'}">${reg?'Create Account':'Login'}</button>`)+`<div class="msg" id="msg"></div>`}
+const err=t=>$('#msg').textContent=t;
+function doReg(){const n=$('#nm').value.trim(),c=$('#ct').value.trim(),p=$('#pw').value;
+if(!n||!c||p.length<6)return err('Fill all fields (password min 6 chars).');
+if(ctype=='email'&&!/^\S+@\S+\.\S+$/.test(c))return err('Enter a valid email.');
+if(ctype=='phone'&&!/^\d{10}$/.test(c))return err('Enter a valid 10-digit phone number.');
+if(findU(c))return err('Account already exists. Please login.');
+const role=$('#rl').value,u={id:uid(),name:n,role,type:ctype,contact:c,pw:p,verified:role=='owner'};
+DB.users.push(u);save();pending={u};sendOtp();authBox();
+DB.users.filter(x=>x.role=='admin').forEach(a=>notify(a.id,`New ${role} registered: ${n}`))}
+function doLogin(){const c=$('#ct').value.trim(),u=findU(c);
+if(!u||u.pw!=$('#pw').value)return err('Wrong contact or password.');
+pending={u};sendOtp();authBox()}
+function sendOtp(){otp=String(Math.floor(100000+Math.random()*900000));
+toast(`🔐 <b>DEMO OTP: ${otp}</b><br><small>(would be sent to ${esc(pending.u.contact)} by email/SMS gateway)</small>`,20000)}
+function checkOtp(){if($('#otp').value.trim()!=otp)return err('Incorrect OTP.');
+ses=pending.u.id;localStorage.setItem('fixora_ses',ses);pending=null;tab='';appView()}
+function logout(){ses=null;localStorage.removeItem('fixora_ses');tab='';authView()}
 
-    <!-- LOGIN -->
-    <form id="loginForm">
-      <h3>Login to Your Account</h3>
+/* ---------- APP SHELL ---------- */
+const TABS={owner:[['prod','📦 My Products'],['add','➕ Register Product'],['inc','🔁 Transfers'],['notif','🔔 Notifications']],
+technician:[['log','🛠 Log Repair'],['mine','📋 My Entries'],['notif','🔔 Notifications']],
+admin:[['over','📊 Overview'],['users','👥 Users'],['disp','⚠ Disputes'],['notif','🔔 Notifications']]};
+function appView(){const u=me();if(!u)return authView();if(!tab)tab=TABS[u.role][0][0];
+const un=DB.notifs.filter(n=>n.userId==u.id&&!n.read).length;
+$('#app').innerHTML=`<div class="top"><div class="logo"><i>F</i>Fixora Hub</div><div class="row"><span class="mute" style="color:#c6dbe6">${esc(u.name)} · ${u.role}</span><button class="sm alt" onclick="logout()">Logout</button></div></div>
+<div class="wrap"><div class="nav">${TABS[u.role].map(t=>`<button class="${tab==t[0]?'on':''}" onclick="tab='${t[0]}';appView()">${t[1]}${t[0]=='notif'&&un?` (${un})`:''}</button>`).join('')}</div><div id="view"></div></div>`;
+({prod:vProd,add:vAdd,inc:vInc,notif:vNotif,log:vLog,mine:vMine,over:vOver,users:vUsers,disp:vDisp})[tab]()}
 
-      <div class="field">
-        <label for="email">Email Address</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          autocomplete="email"
-          required
-        >
-      </div>
+/* ---------- OWNER ---------- */
+const hist=pid=>DB.repairs.filter(r=>r.pid==pid).sort((a,b)=>b.date.localeCompare(a.date));
+const warr=p=>!p.warrantyEnd?'No warranty info':new Date(p.warrantyEnd)>=new Date(new Date().toDateString())?`<span style="color:var(--green)">✔ Active till ${fmt(p.warrantyEnd)}</span>`:`<span style="color:var(--red)">✖ Expired ${fmt(p.warrantyEnd)}</span>`;
+function vProd(){const l=DB.products.filter(p=>p.ownerId==ses),d=new Date().toISOString().slice(0,10);
+const due=l.filter(p=>p.reminder&&p.reminder<=d).length;
+$('#view').innerHTML=`<div class="grid"><div class="card stat"><span class="mute">Products</span><b>${l.length}</b></div><div class="card stat" style="border-color:var(--amber)"><span class="mute">Reminders due</span><b>${due}</b></div><div class="card stat" style="border-color:var(--red)"><span class="mute">Records to review</span><b>${l.reduce((a,p)=>a+hist(p.pid).filter(r=>r.status=='Pending Verification').length,0)}</b></div></div>
+<h2 class="mt">My Products</h2><div class="grid mt">${l.map(p=>`<div class="card"><div class="row sp"><b>${esc(p.brand)} ${esc(p.model)}</b><span class="pid">${p.pid}</span></div><p class="mute">${esc(p.type)} · Serial ${esc(p.serial||'—')}</p><p class="mt">${warr(p)}</p><p class="mute">Next service: ${fmt(p.reminder)}${p.reminder&&p.reminder<=d?' ⏰':''}</p><p class="mute">${hist(p.pid).length} repair record(s)</p><button class="mt sm" onclick="openProd('${p.pid}')">Open Passport</button></div>`).join('')||'<p class="mute">No products yet. Use "Register Product".</p>'}</div>`}
+function vAdd(){$('#view').innerHTML=`<div class="card" style="max-width:640px"><h2>Register a Product</h2><p class="mute">A unique Passport ID and QR code are generated automatically.</p>
+<div class="two"><div><label>Product type</label><select id="pt"><option>Mobile Phone</option><option>Laptop</option><option>Washing Machine</option><option>Refrigerator</option><option>Air Conditioner</option><option>TV</option><option>Vehicle</option><option>Other</option></select></div><div><label>Brand</label><input id="pb"></div>
+<div><label>Model</label><input id="pm"></div><div><label>Serial / IMEI</label><input id="ps"></div>
+<div><label>Purchase date</label><input id="pd" type="date"></div><div><label>Warranty ends</label><input id="pw2" type="date"></div></div>
+<label>Next service reminder (optional)</label><input id="pr" type="date"><button class="full" onclick="addProd()">Generate Passport</button><div class="msg" id="msg"></div></div>`}
+function addProd(){const b=$('#pb').value.trim(),m=$('#pm').value.trim();if(!b||!m)return err('Brand and model are required.');
+const pid=`RHP-2026-${String(DB.seq++).padStart(4,'0')}`;
+DB.products.push({pid,ownerId:ses,type:$('#pt').value,brand:b,model:m,serial:$('#ps').value.trim(),purchase:$('#pd').value,warrantyEnd:$('#pw2').value,reminder:$('#pr').value,transferTo:null});save();
+toast(`✅ Passport created: <b>${pid}</b>`);tab='prod';appView();openProd(pid)}
+const link=pid=>location.href.split('#')[0]+'#verify='+pid;
+function openProd(pid){const p=DB.products.find(x=>x.pid==pid),own=p.ownerId==ses;
+$('#modal').innerHTML=`<div class="modal" onclick="if(event.target==this)closeM()"><div class="card">
+<div class="row sp"><h2>${esc(p.brand)} ${esc(p.model)}</h2><button class="ghost sm" onclick="closeM()">✕</button></div>
+<div class="row mt" style="align-items:flex-start"><div id="qr" style="background:#fff;padding:8px;border:1px solid var(--line);border-radius:10px"></div>
+<div><span class="pid">${p.pid}</span><p class="mute mt">${esc(p.type)} · Serial ${esc(p.serial||'—')}</p><p>Purchased: ${fmt(p.purchase)}</p><p>Warranty: ${warr(p)}</p><p>Next service: ${fmt(p.reminder)}</p><button class="sm ghost mt" onclick="dlQR('${p.pid}')">⬇ Download QR</button></div></div>
+${own?`<div class="two mt"><div><label>Next service reminder</label><div class="row"><input id="rd" type="date" value="${p.reminder||''}" style="flex:1"><button class="sm" onclick="setRem('${p.pid}')">Set</button></div></div>
+<div><label>Transfer to (registered email/phone)</label><div class="row"><input id="tt" style="flex:1"><button class="sm alt" onclick="doTransfer('${p.pid}')">Send</button></div>${p.transferTo?'<p class="mute">Transfer pending…</p>':''}</div></div>`:''}
+<h3 class="mt">Repair History</h3><div class="tl">${hist(pid).map(r=>`<div><div class="row sp"><b>${fmt(r.date)} — ${esc(r.desc)}</b>${badge(r.status)}</div><p class="mute">By ${esc(DB.users.find(u=>u.id==r.techId)?.name||'Technician')} · Parts: ${esc(r.parts||'—')} · Cost: ₹${esc(r.cost||0)}</p>
+${own&&r.status=='Pending Verification'?`<div class="row mt"><button class="sm" onclick="rule('${r.id}',1)">✔ Confirm</button><button class="sm red" onclick="rule('${r.id}',0)">✖ Dispute</button></div>`:''}</div>`).join('')||'<p class="mute">No repairs recorded yet.</p>'}</div></div></div>`;
+setTimeout(()=>new QRCode($('#qr'),{text:link(pid),width:130,height:130,colorDark:'#0b2545'}),30)}
+const closeM=()=>$('#modal').innerHTML='';
+function dlQR(pid){const c=$('#qr canvas');const a=document.createElement('a');a.href=c.toDataURL();a.download=pid+'.png';a.click()}
+function setRem(pid){DB.products.find(p=>p.pid==pid).reminder=$('#rd').value;save();toast('⏰ Reminder saved');closeM();appView()}
+function doTransfer(pid){const u=findU($('#tt').value);if(!u||u.role!='owner'||u.id==ses)return toast('❌ No other registered owner with that email/phone.');
+DB.products.find(p=>p.pid==pid).transferTo=u.id;notify(u.id,`${me().name} wants to transfer ${pid} to you. Open "Transfers" to accept.`);save();toast('📨 Transfer request sent');closeM();appView()}
+function vInc(){const l=DB.products.filter(p=>p.transferTo==ses);$('#view').innerHTML=`<h2>Incoming Transfers</h2><div class="grid mt">${l.map(p=>`<div class="card"><b>${esc(p.brand)} ${esc(p.model)}</b> <span class="pid">${p.pid}</span><p class="mute">From ${esc(DB.users.find(u=>u.id==p.ownerId).name)}</p><div class="row mt"><button class="sm" onclick="acc('${p.pid}',1)">Accept</button><button class="sm red" onclick="acc('${p.pid}',0)">Decline</button></div></div>`).join('')||'<p class="mute">No incoming transfers.</p>'}</div>`}
+function acc(pid,y){const p=DB.products.find(x=>x.pid==pid);if(y){notify(p.ownerId,`${me().name} accepted ${pid}.`);p.ownerId=ses}p.transferTo=null;save();toast(y?'✅ Ownership transferred with full history':'Declined');appView()}
+function rule(id,ok){const r=DB.repairs.find(x=>x.id==id),p=DB.products.find(x=>x.pid==r.pid);r.status=ok?'Verified':'Disputed';
+notify(r.techId,`Your repair entry on ${r.pid} was ${r.status.toLowerCase()} by the owner.`);
+if(!ok)DB.users.filter(u=>u.role=='admin').forEach(a=>notify(a.id,`Disputed record on ${r.pid}`));save();openProd(p.pid);appView();openProd(p.pid)}
 
-      <div class="field">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Enter your password"
-          autocomplete="current-password"
-          required
-        >
-      </div>
+/* ---------- TECHNICIAN ---------- */
+function vLog(){const u=me();$('#view').innerHTML=!u.verified?`<div class="card"><h2>⏳ Awaiting admin verification</h2><p class="mute mt">The admin must verify your technician account before you can log repairs.</p></div>`:`<div class="card" style="max-width:680px"><h2>Log Repair Entry</h2><p class="mute">Enter the Passport ID (or scan the QR with your phone camera – it opens the passport link).</p>
+<label>Passport ID</label><input id="rp" placeholder="RHP-2026-0001"><label>What was repaired?</label><textarea id="rd2" rows="3"></textarea>
+<div class="two"><div><label>Repair date</label><input id="rdt" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div><label>Cost (₹)</label><input id="rc" type="number" min="0"></div>
+<div><label>Parts replaced</label><input id="rpt"></div><div><label>Next service due</label><input id="rn" type="date"></div></div>
+<button class="full" onclick="addRep()">Save Record</button><div class="msg" id="msg"></div></div>`}
+function addRep(){const pid=$('#rp').value.trim().toUpperCase(),p=DB.products.find(x=>x.pid==pid),d=$('#rd2').value.trim();
+if(!p)return err('Invalid Passport ID – request rejected.');if(!d||!$('#rdt').value)return err('Details incomplete – add description and date.');
+DB.repairs.push({id:uid(),pid,techId:ses,date:$('#rdt').value,desc:d,parts:$('#rpt').value,cost:$('#rc').value,status:'Pending Verification'});
+if($('#rn').value)p.reminder=$('#rn').value;notify(p.ownerId,`New repair logged on ${pid} by ${me().name}. Please review & confirm.`);save();toast('✅ Saved as Pending Verification. Owner notified.');tab='mine';appView()}
+function vMine(){const l=DB.repairs.filter(r=>r.techId==ses).sort((a,b)=>b.date.localeCompare(a.date));$('#view').innerHTML=`<h2>My Entries</h2><div class="card mt"><table><tr><th>Date</th><th>Passport</th><th>Work</th><th>Cost</th><th>Status</th></tr>${l.map(r=>`<tr><td>${fmt(r.date)}</td><td><span class="pid">${r.pid}</span></td><td>${esc(r.desc)}</td><td>₹${esc(r.cost||0)}</td><td>${badge(r.status)}</td></tr>`).join('')||'<tr><td colspan=5 class="mute">Nothing logged yet.</td></tr>'}</table></div>`}
 
-      <div class="actions">
-        <button type="submit" style="width:100%">Login</button>
-      </div>
-    </form>
+/* ---------- ADMIN ---------- */
+function vOver(){$('#view').innerHTML=`<div class="grid">${[['Users',DB.users.length],['Products',DB.products.length],['Repair records',DB.repairs.length],['Disputed',DB.repairs.filter(r=>r.status=='Disputed').length],['Unverified technicians',DB.users.filter(u=>u.role=='technician'&&!u.verified).length]].map(s=>`<div class="card stat"><span class="mute">${s[0]}</span><b>${s[1]}</b></div>`).join('')}</div>`}
+function vUsers(){$('#view').innerHTML=`<h2>Manage Users</h2><div class="card mt"><table><tr><th>Name</th><th>Role</th><th>Contact</th><th>Status</th><th></th></tr>${DB.users.filter(u=>u.role!='admin').map(u=>`<tr><td>${esc(u.name)}</td><td>${u.role}</td><td>${esc(u.contact)}</td><td>${u.verified?'✔ Verified':'Pending'}</td><td>${u.role=='technician'?`<button class="sm ${u.verified?'red':''}" onclick="tgl('${u.id}')">${u.verified?'Revoke':'Verify'}</button>`:''}</td></tr>`).join('')||'<tr><td colspan=5 class="mute">No users yet.</td></tr>'}</table></div>`}
+function tgl(id){const u=DB.users.find(x=>x.id==id);u.verified=!u.verified;notify(id,u.verified?'Your technician account is verified. You can now log repairs.':'Your verification was revoked.');save();appView()}
+function vDisp(){const l=DB.repairs.filter(r=>r.status=='Disputed');$('#view').innerHTML=`<h2>Disputed Records</h2><div class="grid mt">${l.map(r=>`<div class="card"><span class="pid">${r.pid}</span> ${badge(r.status)}<p class="mt">${esc(r.desc)}</p><p class="mute">By ${esc(DB.users.find(u=>u.id==r.techId)?.name)} · ₹${esc(r.cost||0)}</p><button class="sm mt" onclick="adm('${r.id}')">Resolve → Verified</button></div>`).join('')||'<p class="mute">No disputes. 🎉</p>'}</div>`}
+function adm(id){DB.repairs.find(r=>r.id==id).status='Verified';save();appView()}
 
-    <hr>
+/* ---------- NOTIFICATIONS ---------- */
+function vNotif(){const l=DB.notifs.filter(n=>n.userId==ses);$('#view').innerHTML=`<h2>Notifications</h2><div class="grid mt" style="grid-template-columns:1fr">${l.map(n=>`<div class="card" style="${n.read?'':'border-left:5px solid var(--amber)'}">${esc(n.text)}<p class="mute">${new Date(n.at).toLocaleString('en-IN')}</p></div>`).join('')||'<p class="mute">Nothing here.</p>'}</div>`;
+l.forEach(n=>n.read=true);save()}
 
-    <!-- REGISTER -->
-    <form id="registerForm">
-      <h3>Create a New Account</h3>
+/* ---------- PUBLIC VERIFY (buyer) ---------- */
+function verify(pid){pid=String(pid||'').trim().toUpperCase();const p=DB.products.find(x=>x.pid==pid);
+$('#modal').innerHTML=`<div class="modal" onclick="if(event.target==this)closeM()"><div class="card"><div class="row sp"><h2>Passport Verification</h2><button class="ghost sm" onclick="closeM()">✕</button></div>`+(!p?`<p class="mt" style="color:var(--red)">❌ No passport found for "${esc(pid)}".</p>`:
+`<p class="mt"><span class="badge b-v">✔ Genuine passport</span> <span class="pid">${p.pid}</span></p><h3 class="mt">${esc(p.brand)} ${esc(p.model)}</h3><p class="mute">${esc(p.type)} · Purchased ${fmt(p.purchase)}</p><p>Warranty: ${warr(p)}</p>
+<h3 class="mt">Repair History</h3><div class="tl">${hist(pid).map(r=>`<div><div class="row sp"><b>${fmt(r.date)} — ${esc(r.desc)}</b>${badge(r.status)}</div><p class="mute">Parts: ${esc(r.parts||'—')}</p></div>`).join('')||'<p class="mute">No repairs recorded.</p>'}</div>`)+`</div></div>`}
 
-      <div class="field">
-        <label for="regName">Full Name</label>
-        <input
-          id="regName"
-          type="text"
-          placeholder="Enter your full name"
-          autocomplete="name"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="regEmail">Email Address</label>
-        <input
-          id="regEmail"
-          type="email"
-          placeholder="Enter your email"
-          autocomplete="email"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="regPassword">Password</label>
-        <input
-          id="regPassword"
-          type="password"
-          placeholder="Minimum 8 characters"
-          minlength="8"
-          autocomplete="new-password"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label for="regRole">Account Type</label>
-        <select id="regRole" required>
-          <option value="customer">Customer</option>
-          <option value="repair_shop_owner">Repair Shop Owner</option>
-        </select>
-      </div>
-
-      <div class="actions">
-        <button type="submit" style="width:100%">
-          Create Account
-        </button>
-      </div>
-    </form>
-
-    <p id="authMessage" role="status" aria-live="polite"></p>
-  </div>
-</div>
-
-/* FIXORA HUB AUTHENTICATION DESIGN */
-
-.login {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 16px;
-    background: linear-gradient(135deg, #101d3a, #234b78, #287b91);
-    font-family: Arial, sans-serif;
-}
-
-.login .card {
-    width: 100%;
-    max-width: 460px;
-    background: #ffffff;
-    padding: 35px;
-    border-radius: 18px;
-    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
-}
-
-.login h1 {
-    color: #17345c;
-    text-align: center;
-    margin-bottom: 8px;
-    font-size: 29px;
-}
-
-.login .muted {
-    text-align: center;
-    color: #718096;
-    margin-bottom: 28px;
-}
-
-.login h3 {
-    color: #234b78;
-    margin: 22px 0 16px;
-}
-
-.login .field {
-    margin-bottom: 17px;
-}
-
-.login label {
-    display: block;
-    margin-bottom: 7px;
-    color: #334155;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.login input,
-.login select {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px 14px;
-    border: 1px solid #d5deea;
-    border-radius: 9px;
-    background: #f8fafc;
-    font-size: 15px;
-    outline: none;
-    transition: 0.2s;
-}
-
-.login input:focus,
-.login select:focus {
-    border-color: #287bba;
-    box-shadow: 0 0 0 3px rgba(40, 123, 186, 0.12);
-    background: #fff;
-}
-
-.login button {
-    background: #1769aa;
-    color: white;
-    border: none;
-    border-radius: 9px;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.login button:hover {
-    background: #104e83;
-    transform: translateY(-1px);
-}
-
-.login hr {
-    border: none;
-    border-top: 1px solid #e5eaf0;
-    margin: 28px 0;
-}
-
-#authMessage {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 14px;
-    color: #d14343;
-    overflow-wrap: anywhere;
-}
-
-@media (max-width: 480px) {
-    .login .card {
-        padding: 24px 19px;
-    }
-
-    .login h1 {
-        font-size: 25px;
-    }
-}
+/* ---------- START ---------- */
+ses&&me()?appView():authView();
+const h=location.hash.match(/verify=(.+)/);if(h)verify(decodeURIComponent(h[1]));
+</script>
+</body>
+</html>
